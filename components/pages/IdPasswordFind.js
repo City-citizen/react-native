@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-export default function JoinMembershipPage() {
+export default function IdPasswordFind() {
   const navigation = useNavigation();
 
   return (
@@ -25,23 +25,10 @@ export default function JoinMembershipPage() {
         source={require("../img/backgroundimg.png")}
         resizeMode="cover"
       />
-      <TextInput
-        style={styles.input}
-        placeholder="ID"
-        placeholderTextColor="black"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="PASSWORD"
-        placeholderTextColor="black"
-        secureTextEntry={true}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="PASSWORD CHECK"
-        placeholderTextColor="black"
-        secureTextEntry={true}
-      />
+
+      <Text style={{ marginTop: 40, fontSize: 18, marginRight: 240 }}>
+        아이디 찾기
+      </Text>
       <TextInput
         style={styles.input}
         placeholder="이름"
@@ -49,16 +36,6 @@ export default function JoinMembershipPage() {
       />
       <TextInput
         style={styles.input}
-        placeholder="생년원일"
-        placeholderTextColor="black"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="학교"
-        placeholderTextColor="black"
-      />
-      <TextInput
-        style={[styles.input, { zIndex: 1 }]}
         placeholder="전화번호"
         placeholderTextColor="black"
       />
@@ -68,7 +45,35 @@ export default function JoinMembershipPage() {
           navigation.navigate("LoginPage");
         }}
       >
-        <Text style={{ color: "black" }}>회원가입</Text>
+        <Text style={{ color: "black" }}>아이디 찾기</Text>
+      </TouchableOpacity>
+
+      <Text style={{ marginTop: 40, fontSize: 18, marginRight: 220 }}>
+        비밀번호 찾기
+      </Text>
+      <TextInput
+        style={styles.input}
+        placeholder="이름"
+        placeholderTextColor="black"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="아이디"
+        placeholderTextColor="black"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="전화번호"
+        placeholderTextColor="black"
+      />
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate("LoginPage");
+        }}
+      >
+        <Text style={{ color: "black" }}>비밀번호 찾기</Text>
       </TouchableOpacity>
 
       <StatusBar style="auto" />
@@ -91,17 +96,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
-    marginVertical: 17,
+    marginVertical: 13,
     color: "black",
     backgroundColor: "white",
   },
   button: {
-    marginTop: 30,
+    marginTop: 10,
     backgroundColor: "white",
     padding: 10,
     borderRadius: 10,
     marginHorizontal: 10,
-    width: "20%",
+    width: "23%",
     alignItems: "center",
     borderColor: "black",
     borderWidth: 1,
