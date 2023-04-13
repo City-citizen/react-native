@@ -5,6 +5,8 @@ import LoginPage from "./components/pages/LoginPage";
 import JoinMembershipPage from "./components/pages/JoinMembershipPage";
 import IdPasswordFind from "./components/pages/IdPasswordFind";
 import MainPage from "./components/pages/MainPage";
+import MyPage from "./components/pages/MyPage";
+
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
@@ -41,6 +43,12 @@ export default function App() {
             component={MainPage}
             options={{ title: "CITY" }}
           />
+           <Stack.Screen
+            name="MyPage"
+            component={MyPage}
+            options={{ title: "CITY" }}
+          />
+         
         </Stack.Navigator>
       </NavigationContainer>
     </View>

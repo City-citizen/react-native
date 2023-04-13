@@ -8,6 +8,8 @@ import {
   View,
   Image,
 } from "react-native";
+import BottomTabNav from "../compent/BottomTabNav";
+import Adimg from "../compent/Adimg";
 
 export default function LoginPage() {
   const navigation = useNavigation();
@@ -31,9 +33,7 @@ export default function LoginPage() {
         placeholderTextColor="black"
       />
 
-      <View style={styles.ad}>
-        <Text>광고 이미지</Text>
-      </View>
+        <Adimg />
 
       <View style={styles.univercity}>
         <Text>Univer city</Text>
@@ -80,6 +80,7 @@ export default function LoginPage() {
           <Text style={{ color: "black", marginRight: 80 }}>신고게시판</Text>
         </TouchableOpacity>
       </View>
+      <BottomTabNav />
 
       <StatusBar style="auto" />
     </View>
@@ -103,13 +104,6 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     color: "white",
     marginTop: 35,
-  },
-  ad: {
-    borderColor: "black",
-    borderWidth: 1,
-    width: "89%",
-    height: 60,
-    marginVertical: 10,
   },
   univercity: {
     width: "90%",
