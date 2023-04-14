@@ -6,7 +6,9 @@ import JoinMembershipPage from "./components/pages/JoinMembershipPage";
 import IdPasswordFind from "./components/pages/IdPasswordFind";
 import MainPage from "./components/pages/MainPage";
 import MyPage from "./components/pages/MyPage";
-
+import BoardList from "./components/pages/BoardList";
+import Board from "./components/pages/Board";
+import Addpost from "./components/pages/Addpost"
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
@@ -46,6 +48,21 @@ export default function App() {
            <Stack.Screen
             name="MyPage"
             component={MyPage}
+            options={{ title: "CITY" }}
+          />
+           <Stack.Screen
+            name="BoardList"
+            component={BoardList}
+            options={{ title: "CITY" }}
+          />
+          <Stack.Screen
+            name="Board"
+            component={Board}
+            options={{ title: "CITY" }}
+          />
+          <Stack.Screen
+            name="Addpost"
+            component={Addpost}
             options={{ title: "CITY" }}
           />
          
