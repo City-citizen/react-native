@@ -1,19 +1,24 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React from "react";
+import { View, Image } from "react-native";
 
 const AdComponent = () => {
   return (
     <View style={styles.ad}>
-      <Text>광고 이미지</Text>
+      <Image
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+        source={require("../img/ad.png")}
+        resizeMode="cover"
+      />
     </View>
   );
 };
 
 const styles = {
   ad: {
-    borderColor: 'black',
-    borderWidth: 1,
-    width: '89%',
+    width: "89%",
     height: 60,
     marginVertical: 10,
     backgroundColor: "white",

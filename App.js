@@ -6,6 +6,8 @@ import JoinMembershipPage from "./components/pages/JoinMembershipPage";
 import IdPasswordFind from "./components/pages/IdPasswordFind";
 import MainPage from "./components/pages/MainPage";
 import MyPage from "./components/pages/MyPage";
+import EditPage from "./components/pages/EditPage";
+import SearchPage from "./components/pages/SearchPage";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -46,7 +48,17 @@ export default function App() {
            <Stack.Screen
             name="MyPage"
             component={MyPage}
-            options={{ title: "CITY" }}
+            options={{ title: "내 정보" }}
+          />
+          <Stack.Screen
+            name="EditPage"
+            component={EditPage}
+            options={{ title: "설정" }}
+          />
+           <Stack.Screen
+            name="SearchPage"
+            component={SearchPage}
+            options={{ title: "검색" }}
           />
          
         </Stack.Navigator>

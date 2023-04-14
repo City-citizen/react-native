@@ -30,18 +30,27 @@ export default function MyPage() {
         resizeMode="cover"
       />
       <View style={styles.myProfile}>
-        <Text>학과</Text>
+        <View style={{borderColor:"black",borderWidth:1,width:75,height:75,borderRadius:15,marginLeft:20,marginRight:20}}>
+
+        </View>
+        <Text style={{fontSize:20}}>학과</Text>
       </View>
 
       <View style={styles.myList}>
         <View style={styles.list}>
+          <TouchableOpacity>
           <Text style={{ fontSize: 18 }}>게시물 작성 목록</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.list}>
+          <TouchableOpacity>
           <Text style={{ fontSize: 18 }}>댓글 작성 목록</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.list2}>
+          <TouchableOpacity>
           <Text style={{ fontSize: 18 }}>보관 목록</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -56,12 +65,14 @@ export default function MyPage() {
           <Text style={{ fontSize: 18 }}>공감율: </Text>
         </View>
       </View>
-        <View style={styles.setUp}>
+        
+
+        <TouchableOpacity style={styles.setUp} onPress={() => {navigation.navigate("EditPage")}}>
         <Text style={{ fontSize: 18 ,paddingLeft:15,marginRight:275}}>설정하기</Text>
-        <TouchableOpacity>
         <MaterialIcons name="settings" size={25} color="black" />
         </TouchableOpacity>
-        </View>
+      
+
       <StatusBar style="auto" />
       <BottomTabNav/>
       <Adimg/>
@@ -78,20 +89,19 @@ const styles = StyleSheet.create({
   },
   myProfile: {
     borderColor: "black",
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 15,
     backgroundColor: "white",
     flexDirection: "row",
     width: "90%",
     height: 100,
     alignItems: "center",
-    justifyContent: "center",
     marginBottom: 20,
     marginTop:35,
   },
   myList: {
     borderColor: "black",
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 15,
     backgroundColor: "white",
     width: "90%",
@@ -112,7 +122,7 @@ const styles = StyleSheet.create({
   },
   setUp:{
     borderColor: "black",
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 15,
     backgroundColor: "white",
     flexDirection: "row",
@@ -120,6 +130,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     marginBottom: 10,
+    flexDirection: "row"
    
   },
 

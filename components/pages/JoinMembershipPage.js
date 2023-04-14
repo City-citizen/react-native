@@ -68,6 +68,7 @@ export default function JoinMembershipPage() {
           navigation.navigate("LoginPage");
         }}
       >
+        {/* 파이어베이스 연동시에 로그인은 이메일만 가능하다고 알고 있음 추후 팀회의로 해결법 모색 */}
         <Text style={{ color: "black" }}>회원가입</Text>
       </TouchableOpacity>
 

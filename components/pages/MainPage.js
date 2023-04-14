@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import BottomTabNav from "../compent/BottomTabNav";
 import Adimg from "../compent/Adimg";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function LoginPage() {
   const navigation = useNavigation();
@@ -27,24 +28,78 @@ export default function LoginPage() {
         resizeMode="cover"
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="검색"
-        placeholderTextColor="black"
-      />
+      <TouchableOpacity style={styles.research} onPress={() => {navigation.navigate("SearchPage")}}>
+        <Text style={{ fontSize: 16, marginRight: 320 }}>검색</Text>
+        {/* 추천검색어를 페이지 이동후 띄울것인지, 아니면 클릭시 띄울것인지 */}
+        <MaterialIcons name="search" size={20} color="black" />
+      </TouchableOpacity>
 
-        <Adimg />
+      <Adimg />
 
       <View style={styles.univercity}>
         <Text>Univer city</Text>
+        <View style={{ flexDirection: "row", marginTop: 10 }}>
+          <TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 20,
+                borderColor: "black",
+                borderWidth: 1,
+                width: 350,
+              }}
+            >
+              가장 최신의 글
+            </Text>
+            {/* 게시물로 */}
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <MaterialIcons name="more-vert" size={25} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.majorcity}>
         <Text>Major city</Text>
+        <View style={{ flexDirection: "row", marginTop: 10 }}>
+          <TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 20,
+                borderColor: "black",
+                borderWidth: 1,
+                width: 350,
+              }}
+            >
+              가장 최신의 글
+            </Text>
+            {/* 게시물로 */}
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <MaterialIcons name="more-vert" size={25} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.mycity}>
         <Text>My city</Text>
+        <View style={{ flexDirection: "row", marginTop: 10 }}>
+          <TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 20,
+                borderColor: "black",
+                borderWidth: 1,
+                width: 350,
+              }}
+            >
+              가장 최신의 글
+            </Text>
+            {/* 게시물로 */}
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <MaterialIcons name="more-vert" size={25} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -52,6 +107,15 @@ export default function LoginPage() {
           <Text style={{ color: "black", marginRight: 60 }}>
             우리 학교 날씨
           </Text>
+          <Image
+            style={{
+              width: 70,
+              height: 70,
+              marginRight: 80,
+            }}
+            source={require("../img/weather.png")}
+            //날씨 api불러올것인지 말것인지
+          />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -62,6 +126,14 @@ export default function LoginPage() {
           <Text style={{ color: "black", marginRight: 60 }}>
             우리 학교 학식
           </Text>
+          <Image
+            style={{
+              width: 70,
+              height: 70,
+              marginRight: 80,
+            }}
+            source={require("../img/food.png")}
+          />
         </TouchableOpacity>
       </View>
 
@@ -70,6 +142,14 @@ export default function LoginPage() {
           <Text style={{ color: "black", marginRight: 45 }}>
             우리 학교 도서관
           </Text>
+          <Image
+            style={{
+              width: 60,
+              height: 60,
+              marginRight: 80,
+            }}
+            source={require("../img/library.png")}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -78,6 +158,14 @@ export default function LoginPage() {
           }}
         >
           <Text style={{ color: "black", marginRight: 80 }}>신고게시판</Text>
+          <Image
+            style={{
+              width: 70,
+              height: 70,
+              marginRight: 80,
+            }}
+            source={require("../img/siren.png")}
+          />
         </TouchableOpacity>
       </View>
       <BottomTabNav />
@@ -94,7 +182,7 @@ const styles = StyleSheet.create({
 
     backgroundColor: "white",
   },
-  input: {
+  research: {
     height: 40,
     width: "90%",
     borderColor: "black",
@@ -102,8 +190,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginVertical: 15,
-    color: "white",
     marginTop: 35,
+    flexDirection: "row",
   },
   univercity: {
     width: "90%",
