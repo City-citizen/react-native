@@ -11,10 +11,16 @@ import {
 import BottomTabNav from "../compent/BottomTabNav";
 import Adimg from "../compent/Adimg";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import * as Linking from "expo-linking";
 
-export default function LoginPage() {
+export default function MainPage() {
   const navigation = useNavigation();
-
+  const weatherlink = () => {
+    Linking.openURL("https://weather.naver.com/today/06290107?cpName=KMA");
+  };
+  const librarylink = () => {
+    Linking.openURL("https://library.kmu.ac.kr/");
+  };
   return (
     <View style={styles.container}>
       <Image
@@ -28,8 +34,13 @@ export default function LoginPage() {
         resizeMode="cover"
       />
 
-      <TouchableOpacity style={styles.research} onPress={() => {navigation.navigate("SearchPage")}}>
-        <Text style={{ fontSize: 16, marginRight: 320 }}>검색</Text>
+      <TouchableOpacity
+        style={styles.research}
+        onPress={() => {
+          navigation.navigate("SearchPage");
+        }}
+      >
+        <Text style={{ fontSize: 16, marginRight: 290 }}>검색</Text>
         {/* 추천검색어를 페이지 이동후 띄울것인지, 아니면 클릭시 띄울것인지 */}
         <MaterialIcons name="search" size={20} color="black" />
       </TouchableOpacity>
@@ -45,7 +56,7 @@ export default function LoginPage() {
                 fontSize: 20,
                 borderColor: "black",
                 borderWidth: 1,
-                width: 350,
+                width: 320,
               }}
             >
               가장 최신의 글
@@ -67,7 +78,7 @@ export default function LoginPage() {
                 fontSize: 20,
                 borderColor: "black",
                 borderWidth: 1,
-                width: 350,
+                width: 320,
               }}
             >
               가장 최신의 글
@@ -89,7 +100,7 @@ export default function LoginPage() {
                 fontSize: 20,
                 borderColor: "black",
                 borderWidth: 1,
-                width: 350,
+                width: 320,
               }}
             >
               가장 최신의 글
@@ -103,7 +114,7 @@ export default function LoginPage() {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => weatherlink()}>
           <Text style={{ color: "black", marginRight: 60 }}>
             우리 학교 날씨
           </Text>
@@ -125,6 +136,7 @@ export default function LoginPage() {
         >
           <Text style={{ color: "black", marginRight: 60 }}>
             우리 학교 학식
+            {/* 학식은 어떻게?? */}
           </Text>
           <Image
             style={{
@@ -138,7 +150,7 @@ export default function LoginPage() {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => librarylink()}>
           <Text style={{ color: "black", marginRight: 45 }}>
             우리 학교 도서관
           </Text>
@@ -184,59 +196,59 @@ const styles = StyleSheet.create({
   },
   research: {
     height: 40,
-    width: "90%",
+    width: 360,
     borderColor: "black",
     borderWidth: 2,
     borderRadius: 10,
     padding: 10,
-    marginVertical: 15,
+    marginVertical: 10,
     marginTop: 35,
     flexDirection: "row",
   },
   univercity: {
-    width: "90%",
+    width: 360,
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 10,
     paddingLeft: 10,
     paddingTop: 5,
-    marginVertical: 15,
+    marginVertical: 7,
     color: "white",
     height: 70,
   },
   majorcity: {
-    width: "90%",
+    width: 360,
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 10,
     paddingLeft: 10,
     paddingTop: 5,
-    marginVertical: 15,
+    marginVertical: 7,
     color: "white",
     height: 70,
   },
   mycity: {
-    width: "90%",
+    width: 360,
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 10,
     paddingLeft: 10,
     paddingTop: 5,
-    marginVertical: 10,
+    marginVertical: 7,
     color: "white",
     height: 70,
   },
 
   buttonContainer: {
     flexDirection: "row",
-    marginVertical: 10,
+    marginVertical: 7,
   },
   button: {
     backgroundColor: "white",
-    padding: 10,
+    padding: 3,
     borderRadius: 10,
     marginHorizontal: 20,
-    width: "40%",
+    width: 160,
     height: 100,
     alignItems: "center",
     borderWidth: 1,

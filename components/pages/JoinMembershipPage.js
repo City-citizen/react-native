@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: "75%",
+    width: 300,
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 10,
@@ -97,12 +97,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   button: {
-    marginTop: 30,
+    marginTop: 20,
     backgroundColor: "white",
     padding: 10,
     borderRadius: 10,
     marginHorizontal: 10,
-    width: "20%",
+    width: 100,
     alignItems: "center",
     borderColor: "black",
     borderWidth: 1,

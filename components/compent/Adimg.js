@@ -18,9 +18,9 @@ const AdComponent = () => {
 
 const styles = {
   ad: {
-    width: "89%",
+    width: 360,
     height: 60,
-    marginVertical: 10,
+    marginVertical: 3,
     backgroundColor: "white",
   },
 };

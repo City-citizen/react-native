@@ -68,7 +68,7 @@ export default function MyPage() {
         
 
         <TouchableOpacity style={styles.setUp} onPress={() => {navigation.navigate("EditPage")}}>
-        <Text style={{ fontSize: 18 ,paddingLeft:15,marginRight:275}}>설정하기</Text>
+        <Text style={{ fontSize: 18 ,paddingLeft:15,marginRight:240}}>설정하기</Text>
         <MaterialIcons name="settings" size={25} color="black" />
         </TouchableOpacity>
       
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: "white",
     flexDirection: "row",
-    width: "90%",
+    width: 360,
     height: 100,
     alignItems: "center",
     marginBottom: 20,
@@ -104,21 +104,21 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 15,
     backgroundColor: "white",
-    width: "90%",
-    height: 180,
-    marginBottom: 20,
+    width: 360,
+    height: 170,
+    marginBottom: 15,
   },
   list: {
     borderBottomColor: "black",
     borderBottomWidth: 1,
     paddingLeft: 15,
-    paddingTop: "4.7%",
-    paddingBottom: "4.7%",
+    paddingTop: 16,
+    paddingBottom: 16,
   },
   list2: {
     paddingLeft: 15,
-    paddingTop: "4.7%",
-    paddingBottom: "4.7%",
+    paddingTop: 16,
+    paddingBottom: 16,
   },
   setUp:{
     borderColor: "black",
@@ -126,10 +126,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: "white",
     flexDirection: "row",
-    width: "90%",
+    width: 360,
     height: 50,
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 3,
     flexDirection: "row"
    
   },

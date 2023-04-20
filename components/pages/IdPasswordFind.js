@@ -45,7 +45,7 @@ export default function IdPasswordFind() {
           navigation.navigate("LoginPage");
         }}
       >
-        <Text style={{ color: "black" }}>아이디 찾기</Text>
+        <Text style={{ color: "black" ,fontSize:12.5 }}>아이디 찾기</Text>
       </TouchableOpacity>
 
       <Text style={{ marginTop: 40, fontSize: 18, marginRight: 220 }}>
@@ -73,7 +73,7 @@ export default function IdPasswordFind() {
           navigation.navigate("LoginPage");
         }}
       >
-        <Text style={{ color: "black" }}>비밀번호 찾기</Text>
+        <Text style={{ color: "black" ,fontSize:12.5,justifyContent:"center"}}>비밀번호 찾기</Text>
       </TouchableOpacity>
 
       <StatusBar style="auto" />
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: "75%",
+    width: 320,
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 10,
@@ -106,9 +106,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginHorizontal: 10,
-    width: "23%",
+    width: 100,
     alignItems: "center",
     borderColor: "black",
     borderWidth: 1,
+    height:40
   },
 });

@@ -2,7 +2,6 @@ import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
   Image,
@@ -100,10 +99,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 15,
     backgroundColor: "white",
-    width: "90%",
+    width: 360,
     height: 180,
     marginBottom: 20,
     justifyContent: "center",
-    marginBottom:30,
+    marginBottom:20,
   },
 });

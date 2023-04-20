@@ -30,12 +30,12 @@ export default function SearchPage() {
       />
 
 <View style={styles.input}>
-<TextInput style={{width:360, borderColor:"black",borderWidth:1,fontSize:20,height:30,marginTop:3,marginLeft:3}}
+<TextInput style={{width:320, borderColor:"black",borderWidth:1,fontSize:20,height:30,marginTop:3,marginLeft:3}}
         placeholder="검색"
         placeholderTextColor="black"
       />
         <TouchableOpacity>
-      <MaterialIcons name="search" size={20} color="black" style={{marginTop:9}} />
+      <MaterialIcons name="search" size={20} color="black" style={{marginTop:9,marginLeft:3}} />
       </TouchableOpacity>
 </View>
 <Adimg/>
@@ -109,20 +109,20 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 15,
     backgroundColor: "white",
-    width: "90%",
+    width: 360,
     height: 450,
-   marginTop:30,
+   marginTop:10,
     marginBottom: 30,
   },
   input: {
     height: 40,
-    width: "90%",
+    width: 360,
     borderColor: "black",
     borderWidth: 2,
     borderRadius: 10,
 justifyContent:"center",
     color: "white",
     flexDirection:"row",
-    marginBottom:20
+    marginBottom:10
   },
 });
