@@ -14,7 +14,7 @@ import { useState, useCallback, useEffect } from "react";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import axios from 'axios';
 
-export default function Board(title, content) {
+export default function Mark() {
     const navigation = useNavigation();
     // const post = [
     //     {id:1, title:"개굴개굴", content:"개굴개룰개루개룩ㄹ", good:2, comment: 4},
@@ -24,19 +24,12 @@ export default function Board(title, content) {
 
       
   const [isPost, setIsPost] = useState(false);
-  const [postList, setPostList] = useState([]);
+  const [postList, setPostList] = useState([]);d
 
   const addPost = useCallback(() => {
     setIsPost(true),
     setPostList((postList) => [
-      ...postList, {id: postList.id + 1, title:'개굴개굴개구리', content:"개굴개굴개굴", good: 2, comment: 2},
-    ]);
-  }, [postList]);
-
-  const addPost2 = useCallback(() => {
-    setIsPost(true),
-    setPostList((postList) => [
-      ...postList, {id: postList.id + 1, title:{title}, content:{content}, good: 2, comment: 2},
+      ...postList, {id: 1, title:'개굴개굴개구리공지', content:"개굴개굴개굴", good: 2, comment: 2},
     ]);
   }, [postList]);
 
@@ -53,15 +46,7 @@ export default function Board(title, content) {
         source={require("../img/backgroundimg.png")}
         resizeMode="cover"
       />
-        <TextInput
-        style={styles.input}
-        placeholder="검색"
-        placeholderTextColor="black"
-      />
         <Adimg />
-        <MaterialCommunityIcons size={20} name="pencil"
-                onPress={() => {
-                    navigation.navigate("Addpost");}}/>
         <TouchableOpacity onPress={addPost}>
             <Text>추가</Text>
         </TouchableOpacity>
@@ -75,21 +60,12 @@ export default function Board(title, content) {
           onPress={() => {
             navigation.navigate("Post");}}
             >{p.title}</Text>
-          <Text>{p.content}</Text>
-          <View style={{ position:"relative"}}>
-            <MaterialIcons name="thumb-up"size={20} color="black" style={{position:"absolute", right: "16%", bottom: "1%"}} />
-            <Text style={{position:"absolute", right: "13%", bottom: "1%"}}>{p.good}</Text>
-            <MaterialIcons name="thumb-down" size={20} color="black" style={{position:"absolute", right: "5%", bottom: "1%"}}/>
-            <Text style={{position:"absolute", right: "2%", bottom: "1%"}}>{p.comment}</Text>
-          </View>
         </View>
         ))}
       </View>
       ) : (
         <Text>아직 글이 없음</Text>
       )}
-      <MaterialCommunityIcons size={20} name="pencil"
-                onPress={addPost2}/>
       <BottomTabNav />
     </View>
   )

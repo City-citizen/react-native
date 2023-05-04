@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import BottomTabNav from "../compent/BottomTabNav";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Adimg from "../compent/Adimg";
+import Mark from "./Mark";
 
 
 export default function MyPage() {
@@ -41,7 +42,10 @@ export default function MyPage() {
           <Text style={{ fontSize: 18 }}>댓글 작성 목록</Text>
         </View>
         <View style={styles.list2}>
-          <Text style={{ fontSize: 18 }}>보관 목록</Text>
+          <Text style={{ fontSize: 18 }}
+          onPress={() => {
+            navigation.navigate("Mark");
+          }}>보관 목록</Text>
         </View>
       </View>
 

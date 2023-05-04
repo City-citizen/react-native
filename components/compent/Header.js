@@ -15,6 +15,7 @@ export default function Header() {
 
   return (
     <View>
+      <Text style={styles.logo}>Univer city</Text>
         {/* <MaterialIcons name="pencil" size={25} color="black" /> */}
     </View>
 

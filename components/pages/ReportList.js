@@ -10,11 +10,10 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Adimg from '../compent/Adimg';
 import BottomTabNav from '../compent/BottomTabNav';
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-import axios from 'axios';
 
-export default function Board(title, content) {
+export default function ReportList() {
     const navigation = useNavigation();
     // const post = [
     //     {id:1, title:"개굴개굴", content:"개굴개룰개루개룩ㄹ", good:2, comment: 4},
@@ -29,14 +28,7 @@ export default function Board(title, content) {
   const addPost = useCallback(() => {
     setIsPost(true),
     setPostList((postList) => [
-      ...postList, {id: postList.id + 1, title:'개굴개굴개구리', content:"개굴개굴개굴", good: 2, comment: 2},
-    ]);
-  }, [postList]);
-
-  const addPost2 = useCallback(() => {
-    setIsPost(true),
-    setPostList((postList) => [
-      ...postList, {id: postList.id + 1, title:{title}, content:{content}, good: 2, comment: 2},
+      ...postList, {id: postList.id + 1, title:'개굴개굴개구리', date:"마감 : 2022.03.18", report: 2},
     ]);
   }, [postList]);
 
@@ -59,9 +51,6 @@ export default function Board(title, content) {
         placeholderTextColor="black"
       />
         <Adimg />
-        <MaterialCommunityIcons size={20} name="pencil"
-                onPress={() => {
-                    navigation.navigate("Addpost");}}/>
         <TouchableOpacity onPress={addPost}>
             <Text>추가</Text>
         </TouchableOpacity>
@@ -73,14 +62,12 @@ export default function Board(title, content) {
           >
           <Text style={styles.title}
           onPress={() => {
-            navigation.navigate("Post");}}
+            navigation.navigate("Report");}}
             >{p.title}</Text>
-          <Text>{p.content}</Text>
+          <Text>{p.date}</Text>
           <View style={{ position:"relative"}}>
-            <MaterialIcons name="thumb-up"size={20} color="black" style={{position:"absolute", right: "16%", bottom: "1%"}} />
-            <Text style={{position:"absolute", right: "13%", bottom: "1%"}}>{p.good}</Text>
-            <MaterialIcons name="thumb-down" size={20} color="black" style={{position:"absolute", right: "5%", bottom: "1%"}}/>
-            <Text style={{position:"absolute", right: "2%", bottom: "1%"}}>{p.comment}</Text>
+            <MaterialIcons name="thumb-down" size={20} color="black" style={{position:"absolute", right: "5%", bottom: "0%"}} />
+            <Text style={{position:"absolute", right: "2%", bottom: "0%"}}>{p.report}</Text>
           </View>
         </View>
         ))}
@@ -88,8 +75,6 @@ export default function Board(title, content) {
       ) : (
         <Text>아직 글이 없음</Text>
       )}
-      <MaterialCommunityIcons size={20} name="pencil"
-                onPress={addPost2}/>
       <BottomTabNav />
     </View>
   )
@@ -120,7 +105,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 700,
         marginLeft: 2,
-        marginBottom: 7,
     },
     content: {
         marginLeft: 2,

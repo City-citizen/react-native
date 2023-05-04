@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 const AdComponent = () => {
   return (
-    <View style={styles.ad}>
+    <View style={styles.ad} >
       <Text>광고 이미지</Text>
     </View>
   );
@@ -17,6 +17,8 @@ const styles = {
     height: 60,
     marginVertical: 10,
     backgroundColor: "white",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 };
 
