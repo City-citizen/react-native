@@ -30,7 +30,7 @@ export default function SearchPage() {
       />
 
 <View style={styles.input}>
-<TextInput style={{width:320, borderColor:"black",borderWidth:1,fontSize:20,height:30,marginTop:3,marginLeft:3}}
+<TextInput style={{width:320, borderColor:"black",fontSize:20,height:30,marginTop:3,marginLeft:3}}
         placeholder="검색"
         placeholderTextColor="black"
       />

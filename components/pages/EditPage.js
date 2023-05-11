@@ -28,25 +28,23 @@ export default function EditPage() {
 
       <View style={styles.myList}>
         <Text style={{ fontSize: 25, margin: 10 }}>계정</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {navigation.navigate("PasswordChange")}}>
           <Text style={{ fontSize: 15, margin: 10 }}>비밀번호 변경</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
-          <Text style={{ fontSize: 15, margin: 10 }}>이메일 변경</Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          navigation.navigate("Photoselect");
+        }}>
           <Text style={{ fontSize: 15, margin: 10 }}>프로필 사진 변경</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.myList}>
+      <View style={styles.myList2}>
         <Text style={{ fontSize: 25, margin: 10,marginTop:13,marginBottom:7 }}>이용 안내</Text>
-        <TouchableOpacity>
-          <Text style={{ fontSize: 15, margin: 7,marginLeft:10 }}>앱 버전</Text>
-        </TouchableOpacity>
-        {/* 글로 표시할지 아니면 페이지 이동할지 */}
+        
+          <Text style={{ fontSize: 15, margin: 7,marginLeft:10 }}>앱 버전 : 1.0.0 (beta)</Text>
+     
 
         <TouchableOpacity>
           <Text style={{ fontSize: 15, margin: 7,marginLeft:10 }}>문의하기</Text> 
@@ -56,17 +54,11 @@ export default function EditPage() {
           <Text style={{ fontSize: 15, margin: 7,marginLeft:10}}>공지사항</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
-          <Text style={{ fontSize: 15, margin: 7,marginLeft:10 }}>서비스 이용약관</Text>
-        </TouchableOpacity>
       </View>
 
-      <View style={styles.myList}>
+      <View style={styles.myList3}>
         <View>
           <Text style={{ fontSize: 25, margin: 10 }}>기타</Text>
-          <TouchableOpacity>
-            <Text style={{ fontSize: 15, margin: 10 }}>정보동의 설정</Text>
-          </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity>
@@ -100,7 +92,29 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: "white",
     width: 360,
-    height: 180,
+    height: 130,
+    marginBottom: 20,
+    justifyContent: "center",
+    marginBottom:20,
+  },
+  myList2: {
+    borderColor: "black",
+    borderWidth: 2,
+    borderRadius: 15,
+    backgroundColor: "white",
+    width: 360,
+    height: 165,
+    marginBottom: 20,
+    justifyContent: "center",
+    marginBottom:20,
+  },
+  myList3: {
+    borderColor: "black",
+    borderWidth: 2,
+    borderRadius: 15,
+    backgroundColor: "white",
+    width: 360,
+    height: 130,
     marginBottom: 20,
     justifyContent: "center",
     marginBottom:20,

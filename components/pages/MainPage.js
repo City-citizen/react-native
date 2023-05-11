@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  ScrollView
 } from "react-native";
 import BottomTabNav from "../compent/BottomTabNav";
 import Adimg from "../compent/Adimg";
@@ -21,6 +22,11 @@ export default function MainPage() {
   const librarylink = () => {
     Linking.openURL("https://library.kmu.ac.kr/");
   };
+  const foodlink = () => {
+    Linking.openURL("https://newcms.kmu.ac.kr/dorm/1873/subview.do");
+  };
+
+
   return (
     <View style={styles.container}>
       <Image
@@ -34,16 +40,19 @@ export default function MainPage() {
         resizeMode="cover"
       />
 
-      <TouchableOpacity
-        style={styles.research}
-        onPress={() => {
-          navigation.navigate("SearchPage");
-        }}
-      >
-        <Text style={{ fontSize: 16, marginRight: 290 }}>검색</Text>
+
+      <View style={styles.research}>
+        <Text style={{ fontSize: 25, marginRight: 260}}>계명대</Text>
         {/* 추천검색어를 페이지 이동후 띄울것인지, 아니면 클릭시 띄울것인지 */}
-        <MaterialIcons name="search" size={20} color="black" />
-      </TouchableOpacity>
+        {/*db 값 불러내서 대학교 이름 불러오기 */}
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("SearchPage");
+          }}
+        >
+          <MaterialIcons name="search" size={30} color="black" />
+        </TouchableOpacity>
+      </View>
 
       <Adimg />
 
@@ -55,7 +64,7 @@ export default function MainPage() {
               style={{
                 fontSize: 20,
                 borderColor: "black",
-                borderWidth: 1,
+                //borderWidth: 1,
                 width: 320,
               }}
             >
@@ -77,7 +86,7 @@ export default function MainPage() {
               style={{
                 fontSize: 20,
                 borderColor: "black",
-                borderWidth: 1,
+                //borderWidth: 1,
                 width: 320,
               }}
             >
@@ -99,7 +108,7 @@ export default function MainPage() {
               style={{
                 fontSize: 20,
                 borderColor: "black",
-                borderWidth: 1,
+                //borderWidth: 1,
                 width: 320,
               }}
             >
@@ -115,53 +124,54 @@ export default function MainPage() {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={() => weatherlink()}>
-          <Text style={{ color: "black", marginRight: 60 }}>
-            우리 학교 날씨
-          </Text>
           <Image
             style={{
               width: 70,
               height: 70,
-              marginRight: 80,
+              marginRight:10,
             }}
             source={require("../img/weather.png")}
             //날씨 api불러올것인지 말것인지
           />
+          <Text style={{ color: "black",textAlign:"center",fontSize:18}}>
+            우리 학교 {"\n"}날씨
+            </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-            navigation.navigate("");
-          }}
+          onPress={() => foodlink()}
         >
-          <Text style={{ color: "black", marginRight: 60 }}>
-            우리 학교 학식
-            {/* 학식은 어떻게?? */}
-          </Text>
           <Image
             style={{
               width: 70,
               height: 70,
-              marginRight: 80,
+              marginRight:5,
+              marginLeft:5,
             }}
             source={require("../img/food.png")}
           />
+          <Text style={{ color: "black",textAlign:"center",fontSize:18}}>
+            우리 학교 {"\n"}학식
+            {/* 학식은 어떻게?? */}
+          </Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={() => librarylink()}>
-          <Text style={{ color: "black", marginRight: 45 }}>
-            우리 학교 도서관
-          </Text>
+  
           <Image
             style={{
               width: 60,
               height: 60,
-              marginRight: 80,
+              marginRight:15,
+              marginLeft:5
             }}
             source={require("../img/library.png")}
           />
+          <Text style={{ color: "black", textAlign:"center",fontSize:18}}>
+            우리 학교 {"\n"}도서관
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -169,19 +179,19 @@ export default function MainPage() {
             navigation.navigate("");
           }}
         >
-          <Text style={{ color: "black", marginRight: 80 }}>신고게시판</Text>
           <Image
             style={{
               width: 70,
               height: 70,
-              marginRight: 80,
+              marginRight:10,
             }}
             source={require("../img/siren.png")}
           />
+          <Text style={{ color: "black", textAlign:"center",fontSize:16}}>신고게시판</Text>
         </TouchableOpacity>
       </View>
       <BottomTabNav />
-
+            
       <StatusBar style="auto" />
     </View>
   );
@@ -195,14 +205,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   research: {
-    height: 40,
+    height: 60,
     width: 360,
-    borderColor: "black",
-    borderWidth: 2,
-    borderRadius: 10,
-    padding: 10,
-    marginVertical: 10,
-    marginTop: 35,
+    padding: 0,
+    marginTop: 20,
     flexDirection: "row",
   },
   univercity: {
@@ -252,5 +258,9 @@ const styles = StyleSheet.create({
     height: 100,
     alignItems: "center",
     borderWidth: 1,
+    flexDirection:"row",
   },
+  buttonContents:{
+    flexDirection:"column",
+  }
 });

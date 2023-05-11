@@ -24,7 +24,7 @@ export default function LoginPage() {
         source={require("../img/backgroundimg.png")}
         resizeMode="cover"
       />
-      <Text style={{ color: "white", fontSize: 70 }}>CITY</Text>
+      <Text style={{ color: "white", fontSize: 70,marginTop:-80 }}>CITY</Text>
       <TextInput
         style={styles.input}
         placeholder="ID"

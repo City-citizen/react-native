@@ -8,6 +8,9 @@ import MainPage from "./components/pages/MainPage";
 import MyPage from "./components/pages/MyPage";
 import EditPage from "./components/pages/EditPage";
 import SearchPage from "./components/pages/SearchPage";
+import PasswordChange from "./components/pages/PasswordChange";
+import Photoselect from "./components/pages/Photoselect";
+import "react-native-gesture-handler";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -43,7 +46,7 @@ export default function App() {
           <Stack.Screen
             name="MainPage"
             component={MainPage}
-            options={{ title: "CITY" }}
+            options={{title:'CITY', gestureEnabled:false }}
           />
            <Stack.Screen
             name="MyPage"
@@ -59,6 +62,16 @@ export default function App() {
             name="SearchPage"
             component={SearchPage}
             options={{ title: "검색" }}
+          />
+          <Stack.Screen
+            name="PasswordChange"
+            component={PasswordChange}
+            options={{ title: "비밀번호 변경" }}
+          />
+           <Stack.Screen
+            name="Photoselect"
+            component={Photoselect}
+            options={{ title: "프로필사진 변경" }}
           />
          
         </Stack.Navigator>
