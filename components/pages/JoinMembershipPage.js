@@ -57,6 +57,18 @@ export default function JoinMembershipPage() {
         placeholder="학교"
         placeholderTextColor="black"
       />
+      <View style={styles.school_major}>
+      <TextInput
+        style={styles.input2}
+        placeholder="학과"
+        placeholderTextColor="black"
+      />
+      <TextInput
+        style={styles.input2}
+        placeholder="입학년도"
+        placeholderTextColor="black"
+      />
+      </View>
       <TextInput
         style={[styles.input, { zIndex: 1 }]}
         placeholder="전화번호"
@@ -82,7 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     alignItems: "center",
-    paddingTop: 50,
+    paddingTop: 30,
     zIndex: 2,
   },
   input: {
@@ -92,7 +104,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
-    marginVertical: 17,
+    marginVertical: 15,
+    color: "black",
+    backgroundColor: "white",
+  },
+  input2: {
+    height: 40,
+    width: 130,
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+    marginHorizontal:20,
     color: "black",
     backgroundColor: "white",
   },
@@ -106,5 +129,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "black",
     borderWidth: 1,
+  },
+school_major: {
+    flexDirection: "row",
+    marginVertical: 10,
   },
 });
