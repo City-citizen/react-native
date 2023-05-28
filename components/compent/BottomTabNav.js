@@ -14,7 +14,7 @@ const BottomTab = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.navButton}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {navigation.navigate('BoardList');}}>
           <MaterialIcons name="list" size={35} color="black" />
         </TouchableOpacity>
       </View>

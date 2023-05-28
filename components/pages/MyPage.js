@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import BottomTabNav from "../compent/BottomTabNav";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Adimg from "../compent/Adimg";
+import Mark from "./Mark";
 
 export default function MyPage() {
   const navigation = useNavigation();

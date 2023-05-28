@@ -22,6 +22,8 @@ const styles = {
     height: 60,
     marginVertical: 3,
     backgroundColor: "white",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 };
 
