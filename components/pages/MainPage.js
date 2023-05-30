@@ -1,13 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
   Image,
-  ScrollView
 } from "react-native";
 import BottomTabNav from "../compent/BottomTabNav";
 import Adimg from "../compent/Adimg";

@@ -19,12 +19,12 @@ const BottomTab = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.navButton}>
-        <TouchableOpacity style={{ marginTop: 2 }}>
+      <TouchableOpacity style={{ marginTop: 2 }} onPress={()=>{navigation.navigate('TimeTable');}}>
           <MaterialCommunityIcons size={35} name="table-edit" color="black" />
         </TouchableOpacity>
       </View>
       <View style={styles.navButton}>
-        <TouchableOpacity>
+      <TouchableOpacity onPress={()=>{navigation.navigate('Point');}}>
           <MaterialCommunityIcons size={35} name="pig-variant" color="black" />
         </TouchableOpacity>
       </View>

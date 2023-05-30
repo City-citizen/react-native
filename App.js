@@ -21,6 +21,10 @@ import axios from "axios";
 import { useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Mark from './components/pages/Mark';
+import TimeTable from "./components/pages/TimeTable";
+import Point from "./components/pages/Point";
+import EachPoint from "./components/pages/EachPoint";
+import License from "./components/pages/License";
 
 const Stack = createStackNavigator();
 
@@ -122,6 +126,28 @@ export default function App() {
             options={{ title: "보관함" }}
           />
 
+           <Stack.Screen
+            name="TimeTable"
+            component={TimeTable}
+            options={{ title: "시간표" }}
+          />
+          <Stack.Screen
+            name="Point"
+            component={Point}
+            options={{ title: "포인트" }}
+          />
+
+          <Stack.Screen
+            name="EachPoint"
+            component={EachPoint}
+            options={{ title: "포인트" }}
+          />
+
+          <Stack.Screen
+            name="License"
+            component={License}
+            options={{ title: "자격증" }}
+          />
          
         </Stack.Navigator>
       </NavigationContainer>

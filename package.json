@@ -31,7 +31,13 @@
     "react-native-screens": "^3.20.0",
     "react-native-svg": "^13.9.0",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-web": "~0.18.11"
+    "react-native-web": "~0.18.11",
+    "@react-native-picker/picker": "2.4.8",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-modal": "^13.0.1",
+    "react-native-picker-select": "^8.0.4",
+    "react-native-table-component": "^1.2.2",
+    "styled-components": "^5.3.9"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
