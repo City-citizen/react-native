@@ -1,6 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 import {
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -12,13 +11,12 @@ import { useNavigation } from "@react-navigation/native";
 import BottomTabNav from "../compent/BottomTabNav";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Adimg from "../compent/Adimg";
-
+import Mark from "./Mark";
 
 export default function MyPage() {
   const navigation = useNavigation();
 
   return (
-    
     <View style={styles.container}>
       <Image
         style={{
@@ -31,31 +29,35 @@ export default function MyPage() {
         source={require("../img/backgroundimg.png")}
         resizeMode="cover"
       />
-      <ScrollView style={styles.table}>
-       
       <View style={styles.myProfile}>
-        
-        <View style={{borderColor:"black",borderWidth:1,width:75,height:75,borderRadius:15,marginLeft:20,marginRight:20}}>
-
-        </View>
-        
-        <Text style={{fontSize:20}}>학과</Text>
+        <View
+          style={{
+            borderColor: "black",
+            borderWidth: 1,
+            width: 75,
+            height: 75,
+            borderRadius: 15,
+            marginLeft: 20,
+            marginRight: 20,
+          }}
+        ></View>
+        <Text style={{ fontSize: 20 }}>학과</Text>
       </View>
 
       <View style={styles.myList}>
         <View style={styles.list}>
           <TouchableOpacity>
-          <Text style={{ fontSize: 18 }}>게시물 작성 목록</Text>
+            <Text style={{ fontSize: 18 }}>게시물 작성 목록</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.list}>
           <TouchableOpacity>
-          <Text style={{ fontSize: 18 }}>댓글 작성 목록</Text>
+            <Text style={{ fontSize: 18 }}>댓글 작성 목록</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.list2}>
           <TouchableOpacity>
-          <Text style={{ fontSize: 18 }}>보관 목록</Text>
+            <Text style={{ fontSize: 18 }}>보관 목록</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -71,22 +73,22 @@ export default function MyPage() {
           <Text style={{ fontSize: 18 }}>공감율: </Text>
         </View>
       </View>
-        
 
-        <TouchableOpacity style={styles.setUp} onPress={() => {navigation.navigate("EditPage")}}>
-        <Text style={{ fontSize: 18 ,paddingLeft:15,marginRight:275}}>설정하기</Text>
+      <TouchableOpacity
+        style={styles.setUp}
+        onPress={() => {
+          navigation.navigate("EditPage");
+        }}
+      >
+        <Text style={{ fontSize: 18, paddingLeft: 15, marginRight: 240 }}>
+          설정하기
+        </Text>
         <MaterialIcons name="settings" size={25} color="black" />
-        </TouchableOpacity>
-      
+      </TouchableOpacity>
 
       <StatusBar style="auto" />
-      
-      
-      
-      <Adimg/>
-      </ScrollView>
-      <BottomTabNav/>
-      
+      <BottomTabNav />
+      <Adimg />
     </View>
   );
 }
@@ -96,7 +98,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     alignItems: "center",
-    
   },
   myProfile: {
     borderColor: "black",
@@ -104,45 +105,43 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: "white",
     flexDirection: "row",
-    width: "90%",
+    width: 360,
     height: 100,
     alignItems: "center",
     marginBottom: 20,
-    marginTop:35,
+    marginTop: 35,
   },
   myList: {
     borderColor: "black",
     borderWidth: 2,
     borderRadius: 15,
     backgroundColor: "white",
-    width: "90%",
-    height: 180,
-    marginBottom: 20,
+    width: 360,
+    height: 170,
+    marginBottom: 15,
   },
   list: {
     borderBottomColor: "black",
     borderBottomWidth: 1,
     paddingLeft: 15,
-    paddingTop: "4.7%",
-    paddingBottom: "4.7%",
+    paddingTop: 16,
+    paddingBottom: 16,
   },
   list2: {
     paddingLeft: 15,
-    paddingTop: "4.7%",
-    paddingBottom: "4.7%",
+    paddingTop: 16,
+    paddingBottom: 16,
   },
-  setUp:{
+  setUp: {
     borderColor: "black",
     borderWidth: 2,
     borderRadius: 15,
     backgroundColor: "white",
     flexDirection: "row",
-    width: "90%",
+    width: 360,
     height: 50,
     alignItems: "center",
-    marginBottom: 10,
-    flexDirection: "row"
-   
+    marginBottom: 3,
+    flexDirection: "row",
   },
-
 });

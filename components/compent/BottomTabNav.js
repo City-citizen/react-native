@@ -14,12 +14,12 @@ const BottomTab = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.navButton}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {navigation.navigate('BoardList');}}>
           <MaterialIcons name="list" size={35} color="black" />
         </TouchableOpacity>
       </View>
       <View style={styles.navButton}>
-      <TouchableOpacity onPress={()=>{navigation.navigate('TimeTable');}}>
+      <TouchableOpacity style={{ marginTop: 2 }} onPress={()=>{navigation.navigate('TimeTable');}}>
           <MaterialCommunityIcons size={35} name="table-edit" color="black" />
         </TouchableOpacity>
       </View>

@@ -4,10 +4,15 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import BottomTabNav from "../compent/BottomTabNav";
 import Adimg from "../compent/Adimg";
+import * as Linking from "expo-linking";
 
 export default function License() {
     const navigation = useNavigation();
-    
+    const examlink = () => {
+      Linking.openURL("https://www.youtube.com/@bigstar1tv");
+    };
+
+
   return (
     <View style={styles.container}>
     <Image
@@ -52,14 +57,14 @@ export default function License() {
         </View>
 
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}onPress={() => examlink()}>
           <Image
             style={styles.buttonImage}
             source={require('../img/exam2.png')}
           />
           <Text style={styles.buttonText}></Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}onPress={() => examlink()}>
           <Image
             style={styles.buttonImage}
             source={require('../img/exam.png')}

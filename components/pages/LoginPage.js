@@ -24,7 +24,7 @@ export default function LoginPage() {
         source={require("../img/backgroundimg.png")}
         resizeMode="cover"
       />
-      <Text style={{ color: "white", fontSize: 70 }}>CITY</Text>
+      <Text style={{ color: "white", fontSize: 70,marginTop:-80 }}>CITY</Text>
       <TextInput
         style={styles.input}
         placeholder="ID"
@@ -36,6 +36,7 @@ export default function LoginPage() {
         placeholderTextColor="white"
         secureTextEntry={true}
       />
+      {/* 아이디 비밀번호 인풋값 받기와 파이어베이스 일치시키기 미완성 */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: "40%",
+    width: 160,
     borderColor: "white",
     borderWidth: 1,
     borderRadius: 5,
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginHorizontal: 10,
-    width: "18%",
+    width: 70,
     alignItems: "center",
   },
   button2: {
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginHorizontal: 10,
-    width: "40%",
+    width: 160,
     alignItems: "center",
   },
 });

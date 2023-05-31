@@ -8,6 +8,7 @@ import {
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import BottomTabNav from "../compent/BottomTabNav";
 
 export default function IdPasswordFind() {
   const navigation = useNavigation();
@@ -26,8 +27,8 @@ export default function IdPasswordFind() {
         resizeMode="cover"
       />
 
-      <Text style={{ marginTop: 40, fontSize: 18, marginRight: 240 }}>
-        아이디 찾기
+      <Text style={{ marginTop: 70, fontSize: 18, marginRight: 220 }}>
+        비밀번호 변경
       </Text>
       <TextInput
         style={styles.input}
@@ -36,47 +37,31 @@ export default function IdPasswordFind() {
       />
       <TextInput
         style={styles.input}
-        placeholder="전화번호"
-        placeholderTextColor="black"
-      />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate("LoginPage");
-        }}
-      >
-        <Text style={{ color: "black" ,fontSize:12.5 }}>아이디 찾기</Text>
-      </TouchableOpacity>
-
-      <Text style={{ marginTop: 40, fontSize: 18, marginRight: 220 }}>
-        비밀번호 찾기
-      </Text>
-      <TextInput
-        style={styles.input}
-        placeholder="이름"
+        placeholder="ID"
         placeholderTextColor="black"
       />
       <TextInput
         style={styles.input}
-        placeholder="아이디"
-        placeholderTextColor="black"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="전화번호"
+        placeholder="password"
         placeholderTextColor="black"
       />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate("LoginPage");
-        }}
-      >
-        <Text style={{ color: "black" ,fontSize:12.5,justifyContent:"center"}}>비밀번호 찾기</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="New password"
+        placeholderTextColor="black"
+      />
+
+      <TouchableOpacity style={styles.button}>
+        <Text
+          style={{ color: "black", fontSize: 12.5, justifyContent: "center" }}
+        >
+          비밀번호 변경
+        </Text>
       </TouchableOpacity>
 
       <StatusBar style="auto" />
+      <BottomTabNav />
     </View>
   );
 }
@@ -110,6 +95,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "black",
     borderWidth: 1,
-    height:40
+    height: 40,
   },
 });

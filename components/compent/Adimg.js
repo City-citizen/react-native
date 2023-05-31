@@ -18,10 +18,12 @@ const AdComponent = () => {
 
 const styles = {
   ad: {
-    width: "90%",
+    width: 360,
     height: 60,
-    marginVertical: 10,
+    marginVertical: 3,
     backgroundColor: "white",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 };
 
