@@ -10,13 +10,18 @@ import {
 } from "react-native";
 import { Table, Row } from "react-native-table-component";
 import DatePicker from "react-native-datepicker";
+<<<<<<< HEAD
 import  RNPickerSelect from "react-native-picker-select";
+=======
+import { Picker } from "@react-native-picker/picker";
+>>>>>>> 80fa43a08223217cecfa4060db2555baf9300c23
 
 import BottomTabNav from "../compent/BottomTabNav";
 import Adimg from "../compent/Adimg";
 
 export default function TimeTable() {
   const [date, setDate] = useState(new Date());
+<<<<<<< HEAD
   const [text, setText] = useState("");
   
   const handleDayChange = (itemValue) => {
@@ -24,6 +29,11 @@ export default function TimeTable() {
     setText(itemValue);;
   };
 
+=======
+  const handleDayChange = (itemValue) => {
+    setSelectedDay(itemValue);
+  };
+>>>>>>> 80fa43a08223217cecfa4060db2555baf9300c23
   const [selectedDay, setSelectedDay] = useState("");
   const [writeMode, setWriteMode] = useState(false);
   const [writeMode2, setWriteMode2] = useState(false);
@@ -63,6 +73,7 @@ export default function TimeTable() {
     "금",
   ]);
   const [tableData, setTableData] = useState([
+<<<<<<< HEAD
     ["9 AM", "", "", "", "", ""],
     ["10 AM", "", "", "", "", ""],
     ["11 AM", "", "", "", "", ""],
@@ -72,6 +83,17 @@ export default function TimeTable() {
     ["3 PM", "", "", "", "", ""],
     ["4 PM", "", "", "", "", ""],
     ["5 PM", "", "", "", "", ""],
+=======
+    ["9:00 AM", "", "", "", "", ""],
+    ["10:00 AM", "", "", "", "", ""],
+    ["11:00 AM", "", "", "", "", ""],
+    ["12:00 AM", "", "", "", "", ""],
+    ["1:00 PM", "", "", "", "", ""],
+    ["2:00 PM", "", "", "", "", ""],
+    ["3:00 PM", "", "", "", "", ""],
+    ["4:00 PM", "", "", "", "", ""],
+    ["5:00 PM", "", "", "", "", ""],
+>>>>>>> 80fa43a08223217cecfa4060db2555baf9300c23
   ]);
 
   const updateTableData = () => {
@@ -163,7 +185,11 @@ export default function TimeTable() {
                     date={date}
                     mode="time"
                     placeholder="Select time"
+<<<<<<< HEAD
                     format="h A"
+=======
+                    format="h:mm A"
+>>>>>>> 80fa43a08223217cecfa4060db2555baf9300c23
                     confirmBtnText="확인"
                     cancelBtnText="닫기"
                     onDateChange={(date) => setDate(date)}
@@ -279,13 +305,18 @@ export default function TimeTable() {
                     date={date}
                     mode="time"
                     placeholder="Select time"
+<<<<<<< HEAD
                     format="h A"
+=======
+                    format="h:mm A"
+>>>>>>> 80fa43a08223217cecfa4060db2555baf9300c23
                     confirmBtnText="확인"
                     cancelBtnText="닫기"
                     onDateChange={(date) => setDate(date)}
                   />
                 </View>
 
+<<<<<<< HEAD
                
                 <RNPickerSelect style
                 onValueChange={handleDayChange}
@@ -306,6 +337,19 @@ export default function TimeTable() {
           
             
                 
+=======
+                <Picker
+                  selectedValue={selectedDay}
+                  onValueChange={handleDayChange}
+                  style={{ width: 200 }}
+                >
+                  <Picker.Item label="월" value="월" />
+                  <Picker.Item label="화" value="화" />
+                  <Picker.Item label="수" value="수" />
+                  <Picker.Item label="목" value="목" />
+                  <Picker.Item label="금" value="금" />
+                </Picker>
+>>>>>>> 80fa43a08223217cecfa4060db2555baf9300c23
               </View>
 
               <TouchableOpacity style={styles.button} onPress={deleteTableData}>
@@ -422,6 +466,7 @@ export default function TimeTable() {
     </View>
   );
 }
+<<<<<<< HEAD
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
       fontSize: 16,
@@ -446,6 +491,8 @@ const pickerSelectStyles = StyleSheet.create({
       padding: 10
   },
 });
+=======
+>>>>>>> 80fa43a08223217cecfa4060db2555baf9300c23
 
 const styles = StyleSheet.create({
   container: {
@@ -469,7 +516,10 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 5,
+<<<<<<< HEAD
     
+=======
+>>>>>>> 80fa43a08223217cecfa4060db2555baf9300c23
   },
   input: {
     height: 40,
@@ -478,7 +528,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
+<<<<<<< HEAD
     
+=======
+>>>>>>> 80fa43a08223217cecfa4060db2555baf9300c23
   },
   button: {
     backgroundColor: "#2196F3",
@@ -517,10 +570,16 @@ const styles = StyleSheet.create({
     height: 70,
   },
   datePicker: {
+<<<<<<< HEAD
     width: 250,
     marginBottom: 10,
   },
 
+=======
+    width: 200,
+    marginBottom: 10,
+  },
+>>>>>>> 80fa43a08223217cecfa4060db2555baf9300c23
   timebox: {
     width: 200,
     marginTop: 30,
