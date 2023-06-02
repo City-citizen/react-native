@@ -94,7 +94,11 @@ export default function Post() {
       >
         {/* 게시물 모달 */}
         <View style={styles.modal}>
-          <TouchableOpacity style={styles.modalbutton}>
+          <TouchableOpacity style={styles.modalbutton}
+          onPress={() => {
+            navigation.navigate("MyPage");
+            setModalVisible(false);
+          }}>
             <Text style={styles.modalText}>프로필 보기</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.modalbutton}>
@@ -121,7 +125,11 @@ export default function Post() {
         transparent={true}
       >
         <View style={styles.replymodal}>
-          <TouchableOpacity style={styles.modalbutton}>
+          <TouchableOpacity style={styles.modalbutton}
+          onPress={() => {
+            navigation.navigate("MyPage");
+            setreplyModalVisible(false);
+          }}>
             <Text style={styles.modalText}>프로필 보기</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.modalbutton}>
@@ -166,7 +174,9 @@ export default function Post() {
             <MaterialIcons name="thumb-down"size={20} color="black" />
               <Text>비공감</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => {
+              navigation.navigate("Mark");
+            }}>
             <MaterialIcons name="bookmark-outline"size={20} color="black" />
               <Text>보관</Text>
             </TouchableOpacity>
@@ -275,8 +285,8 @@ const styles = StyleSheet.create({
     height: "5%",
     marginTop: 0,
     marginBottom: 0,
-    marginLeft: "auto",
-    marginRight: "auto",
+    marginLeft: "5%",
+    marginRight: "5%",
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 10,

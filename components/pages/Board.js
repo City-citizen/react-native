@@ -14,7 +14,7 @@ import { useState, useCallback, useEffect } from "react";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import axios from 'axios';
 
-export default function Board(title, content) {
+export default function Board() {
     const navigation = useNavigation();
     // const post = [
     //     {id:1, title:"개굴개굴", content:"개굴개룰개루개룩ㄹ", good:2, comment: 4},
@@ -25,7 +25,21 @@ export default function Board(title, content) {
       
   const [isPost, setIsPost] = useState(false);
   const [postList, setPostList] = useState([]);
+  const [text, setText] = useState('');
 
+  const handleTextChange = (inputText) => {
+    setText(inputText);
+  };
+/*
+  // ... 기본 input 값 복사 후 적용
+  const onChange = (e) => {
+    const { value, name } = e.target;
+    setInputs({
+        ...inputs,
+        [name]: value,
+    })
+  };
+*/
   const addPost = useCallback(() => {
     setIsPost(true),
     setPostList((postList) => [
@@ -53,13 +67,22 @@ export default function Board(title, content) {
         source={require("../img/backgroundimg.png")}
         resizeMode="cover"
       />
+      <Text>뭐지</Text>
         <TextInput
+        //name="inputs"
+        defaultValue={text}
+        //value={search}
         style={styles.input}
         placeholder="검색"
         placeholderTextColor="black"
+        //onChange={getValue}
+        //onChangeText={(text) => setInputs(text) }
+        onChangeText={handleTextChange}
       />
+      <Text>{text}</Text>
         <Adimg />
         <MaterialCommunityIcons size={20} name="pencil"
+        style = {{marginLeft : "82%" }}
                 onPress={() => {
                     navigation.navigate("Addpost");}}/>
         <TouchableOpacity onPress={addPost}>
@@ -88,8 +111,6 @@ export default function Board(title, content) {
       ) : (
         <Text>아직 글이 없음</Text>
       )}
-      <MaterialCommunityIcons size={20} name="pencil"
-                onPress={addPost2}/>
       <BottomTabNav />
     </View>
   )

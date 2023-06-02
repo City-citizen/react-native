@@ -26,7 +26,7 @@ const [inputs, setInputs] = useState({
   title: '',
   content:'',
 });
-
+/*
 useEffect(()=>{
   axios.get('http://localhost:19006/board/1').then((response)=>{
     console.log(response.data);
@@ -41,7 +41,7 @@ const submit = ()=>{
     alert('등록 완료!');
   })
 };
-
+*/
 const getValue = (e) => {
   const { name, value } = e.target;
   setInputs({
@@ -68,7 +68,7 @@ const getValue = (e) => {
         name="title" 
         value={title}
         placeholder='제목'
-        onChange={getValue}
+        //onChange={getValue}
         // onChange={(text) => {
         //   setTitle(text);
         // }}
@@ -95,7 +95,10 @@ const getValue = (e) => {
             }} >
                 <Text style={styles.txt}>작성</Text>
             </TouchableOpacity>
-            <TouchableOpacity  style={styles.button}>
+            <TouchableOpacity  style={styles.button}
+            onPress={() => {
+              navigation.navigate("Board")
+            }}>
                 <Text style={styles.txt}>
                     취소
                 </Text>
@@ -154,9 +157,10 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "white"
     },
     txt: {
         fontSize: 15,
- 
+
     }
 });

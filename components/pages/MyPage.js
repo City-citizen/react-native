@@ -56,7 +56,9 @@ export default function MyPage() {
           </TouchableOpacity>
         </View>
         <View style={styles.list2}>
-          <TouchableOpacity>
+          <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Mark");}}>
             <Text style={{ fontSize: 18 }}>보관 목록</Text>
           </TouchableOpacity>
         </View>
