@@ -16,8 +16,6 @@ import BoardList from "./BoardList";
 
 export default function Addpost() {
     const navigation = useNavigation();
-    
-      // const { title, contents } = inputs;
 
 const [title, setTitle] = useState("")
 const [content, setContent] = useState("")
@@ -26,28 +24,34 @@ const [inputs, setInputs] = useState({
   title: '',
   content:'',
 });
-/*
-useEffect(()=>{
-  axios.get('http://localhost:19006/board/1').then((response)=>{
-    console.log(response.data);
-  })
-})
 
-const submit = ()=>{
-  axios.post('http://localhost:19006', {
-    title: inputs.title,
-    content: inputs.content
-  }).then(()=>{
-    alert('등록 완료!');
-  })
-};
-*/
 const getValue = (e) => {
   const { name, value } = e.target;
   setInputs({
     ...inputs,
     [name] : value
   })
+};
+
+const submit = async () => {
+  try {
+    const postData = {
+      title: title,
+      content: content,
+    };
+
+    // Save the post data to Firebase
+    await firebase.database().ref('posts').push(postData);
+
+    // Reset the input fields
+    setTitle('');
+    setContent('');
+    
+    // Navigate to the Board screen
+    navigation.navigate('Board');
+  } catch (error) {
+    console.log(error);
+  }
 };
 
   return (
