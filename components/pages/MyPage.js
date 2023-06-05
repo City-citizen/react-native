@@ -12,9 +12,57 @@ import BottomTabNav from "../compent/BottomTabNav";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Adimg from "../compent/Adimg";
 import Mark from "./Mark";
+import { auth, db } from "../firebase/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import React, {useEffect ,useState} from "react";
+
+
 
 export default function MyPage() {
+
   const navigation = useNavigation();
+  
+  const user = auth.currentUser;
+  
+  
+  const [major, setMajor] = useState("");
+
+
+  //user.id를 이용해 파이어베이스에 있는 major 값 가져오기
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+
+        const user = auth.currentUser;
+        const uid = user.uid;
+
+        if (!user) {
+          console.log("사용자를 찾을 수 없습니다.");
+          return;
+        }
+  
+        const q = query(collection(db, "users"), where("userUid", "==", uid));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach((doc) => {
+            const userData = doc.data();
+            setMajor(userData.major);
+          });
+        } else {
+          console.log("사용자 문서를 찾을 수 없습니다.");
+        }
+      } catch (error) {
+        console.log("데이터를 가져오는 중에 오류가 발생했습니다.", error);
+      }
+    };
+  
+    getUserData();
+  }, []);
+
+  
+
+  
+
 
   return (
     <View style={styles.container}>
@@ -40,8 +88,15 @@ export default function MyPage() {
             marginLeft: 20,
             marginRight: 20,
           }}
-        ></View>
-        <Text style={{ fontSize: 20 }}>학과</Text>
+        >
+          <Image
+      source={{ uri: user.photoURL }}
+      style={{ width: "100%", height: "100%", borderRadius: 15 }}
+      resizeMode="cover"
+    />
+
+        </View>
+        <Text style={{ fontSize: 20 }}>학과 : {major} </Text>
       </View>
 
       <View style={styles.myList}>
@@ -56,9 +111,7 @@ export default function MyPage() {
           </TouchableOpacity>
         </View>
         <View style={styles.list2}>
-          <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Mark");}}>
+          <TouchableOpacity>
             <Text style={{ fontSize: 18 }}>보관 목록</Text>
           </TouchableOpacity>
         </View>
@@ -79,6 +132,7 @@ export default function MyPage() {
       <TouchableOpacity
         style={styles.setUp}
         onPress={() => {
+          
           navigation.navigate("EditPage");
         }}
       >

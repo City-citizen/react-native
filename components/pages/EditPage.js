@@ -8,9 +8,22 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import BottomTabNav from "../compent/BottomTabNav";
+import { auth, signOutUser, deleteUser } from "../firebase/firebase";
+import { getAuth } from "firebase/auth";
 
 export default function EditPage() {
   const navigation = useNavigation();
+
+  const handleDeleteUser = async () => {
+    const user = getAuth().currentUser;
+    try {
+      await deleteUser(user);
+      console.log("사용자가 삭제되었습니다.");
+      navigation.navigate("LoginPage");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -28,7 +41,11 @@ export default function EditPage() {
 
       <View style={styles.myList}>
         <Text style={{ fontSize: 25, margin: 10 }}>계정</Text>
-        <TouchableOpacity onPress={() => {navigation.navigate("PasswordChange")}}>
+        <TouchableOpacity onPress={() => {
+          
+          navigation.navigate("PasswordChange")
+          
+          }}>
           <Text style={{ fontSize: 15, margin: 10 }}>비밀번호 변경</Text>
         </TouchableOpacity>
 
@@ -61,12 +78,15 @@ export default function EditPage() {
           <Text style={{ fontSize: 25, margin: 10 }}>기타</Text>
         </View>
         <View>
-          <TouchableOpacity>
+        <TouchableOpacity onPress={handleDeleteUser}>
             <Text style={{ fontSize: 15, margin: 10 }}>회원 탈퇴</Text>
           </TouchableOpacity>
         </View>
         <View>
-          <TouchableOpacity onPress={() => {navigation.navigate("LoginPage")}}>
+          <TouchableOpacity onPress={() => {
+            signOutUser();
+            navigation.navigate("LoginPage")
+            }}>
             <Text style={{ fontSize: 15, margin: 10 }}>로그아웃</Text>
           </TouchableOpacity>
         </View>

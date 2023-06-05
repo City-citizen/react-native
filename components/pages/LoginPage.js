@@ -8,9 +8,69 @@ import {
   View,
   Image,
 } from "react-native";
+import React, {useState} from 'react'
+import { Alert } from "react-native-web";
+import { auth } from '../firebase/firebase'
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+
 
 export default function LoginPage() {
+
   const navigation = useNavigation();
+  
+
+  const [Form , setForm] = useState ({
+
+    confirmemail : "",
+    confirmpassword : "",
+  
+  })
+  
+  
+  
+  
+  const signInSubmit = async () =>{
+    
+    try{
+      
+      if(Form.confirmemail !=="" && Form.confirmpassword !== ""){
+        
+        const { user } = await signInWithEmailAndPassword(auth , Form.confirmemail, Form.confirmpassword);
+        
+        
+        
+        console.log(Form);
+        console.log("로그인에 성공");
+        
+        console.log(user.uid);
+        navigation.navigate("MainPage");
+      
+      }
+      else{
+        //에러 메시지 메시지박스형식으로 보이게끔 작성 필요
+        Alert.alert("이메일과 패스워드를 입력해주세요");
+      }
+      
+      
+      
+    } catch (e) {
+      //에러 메시지 메시지박스형식으로 보이게끔 작성필요
+      console.log(e);
+      Alert.alert("로그인에 실패",e);
+    }
+  }
+
+
+  
+
+
+
+
+
+
+
+
 
   return (
     <View style={styles.container}>
@@ -27,11 +87,15 @@ export default function LoginPage() {
       <Text style={{ color: "white", fontSize: 70,marginTop:-80 }}>CITY</Text>
       <TextInput
         style={styles.input}
-        placeholder="ID"
+        value={Form.confirmemail}
+        onChangeText={(text)=> setForm({...Form, confirmemail : text})}
+        placeholder="Email"
         placeholderTextColor="white"
       />
       <TextInput
         style={styles.input}
+        value={Form.confirmpassword}
+        onChangeText={(text)=> setForm({...Form, confirmpassword : text})}
         placeholder="PASSWORD"
         placeholderTextColor="white"
         secureTextEntry={true}
@@ -41,7 +105,9 @@ export default function LoginPage() {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            navigation.navigate("MainPage");
+            //navigation.navigate("MainPage");
+            signInSubmit();
+            
           }}
         >
           <Text style={{ color: "white" }}>로그인</Text>
@@ -106,3 +172,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+
+

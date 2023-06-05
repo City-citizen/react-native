@@ -10,9 +10,36 @@ import BottomTabNav from "../compent/BottomTabNav";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
+import { updateProfile } from "firebase/auth";
+import { auth, db } from "../firebase/firebase";
+import { doc, updateDoc } from "firebase/firestore";
 
 export default function Photoselect() {
   const navigation = useNavigation();
+  const user = auth.currentUser
+  
+  const changeImage = async () => {
+    updateProfile(user, {
+      photoURL: imageUrl,
+    })
+      .then(() => {
+        const userDocRef = doc(db, "users", user.uid);
+
+        updateDoc(userDocRef, {
+          photoURL: imageUrl,
+        })
+          .then(() => {
+            console.log("성공적으로 프로필 사진을 변경하였습니다", imageUrl);
+          })
+          .catch((error) => {
+            console.log("Firestore에 프로필 사진 변경을 실패하였습니다", error);
+          });
+      })
+      .catch((error) => {
+        console.log("프로필 사진 변경을 실패하였습니다", error);
+      });
+  };
+
 
   const deleteImage = async () => {
     setImageUrl(null);
@@ -79,7 +106,12 @@ export default function Photoselect() {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity 
+      style={styles.button}
+      onPress={()=>{
+        changeImage() , navigation.navigate("EditPage");
+      }}
+      >
         <Text
           style={{ color: "black", fontSize: 15, justifyContent: "center" }}
         >

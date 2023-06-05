@@ -1,18 +1,26 @@
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import {
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
   Image,
+  ScrollView
 } from "react-native";
 import BottomTabNav from "../compent/BottomTabNav";
 import Adimg from "../compent/Adimg";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
+import React, {useEffect, useState } from "react";
+
+
+
+import { auth , db } from "../firebase/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
+
+
 
 export default function MainPage() {
   const navigation = useNavigation();
@@ -25,6 +33,39 @@ export default function MainPage() {
   const foodlink = () => {
     Linking.openURL("https://newcms.kmu.ac.kr/dorm/1873/subview.do");
   };
+
+  const [school, setSchool] = useState("");
+
+
+  useEffect(() => {
+    const getUserDataschool = async () => {
+      try {
+
+        const user = auth.currentUser;
+        const uid = user.uid;
+
+        if (!user) {
+          console.log("사용자를 찾을 수 없습니다.");
+          return;
+        }
+  
+        const q = query(collection(db, "users"), where("userUid", "==", uid));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach((doc) => {
+            const userData = doc.data();
+            setSchool(userData.school);
+          });
+        } else {
+          console.log("사용자 문서를 찾을 수 없습니다.");
+        }
+      } catch (error) {
+        console.log("데이터를 가져오는 중에 오류가 발생했습니다.", error);
+      }
+    };
+  
+    getUserDataschool();
+  }, []);
 
 
   return (
@@ -42,7 +83,7 @@ export default function MainPage() {
 
 
       <View style={styles.research}>
-        <Text style={{ fontSize: 25, marginRight: 260}}>계명대</Text>
+        <Text style={{ fontSize: 25, marginRight: 260}}>{school} </Text>
         {/* 추천검색어를 페이지 이동후 띄울것인지, 아니면 클릭시 띄울것인지 */}
         {/*db 값 불러내서 대학교 이름 불러오기 */}
         <TouchableOpacity

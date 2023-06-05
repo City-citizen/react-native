@@ -24,12 +24,12 @@ export default function Mark() {
 
       
   const [isPost, setIsPost] = useState(false);
-  const [postList, setPostList] = useState([]);
+  const [postList, setPostList] = useState([]);d
 
   const addPost = useCallback(() => {
     setIsPost(true),
     setPostList((postList) => [
-      ...postList, {id: 1, title:'개굴개굴개구리보관', content:"개굴개굴개굴", good: 2, comment: 2},
+      ...postList, {id: 1, title:'개굴개굴개구리공지', content:"개굴개굴개굴", good: 2, comment: 2},
     ]);
   }, [postList]);
 

@@ -11,36 +11,9 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Adimg from "../compent/Adimg";
 import BottomTabNav from '../compent/BottomTabNav';
-import { useState, useCallback } from "react";
 
 export default function Report() {
-  const [good, setGood] = useState(0);
-  const [bad, setBad] = useState(0);
-  const [boolGood, setBoolGood] = useState(false);
-  const [boolBad, setBoolBad] = useState(false);
   const navigation = useNavigation();
-
-  const goodIncrease = () => {
-    if(boolGood==false) {
-      setBoolGood(!boolGood);
-      setGood(prevCount => prevCount + 1);
-    }
-    else {
-      setBoolGood(!boolGood);
-      setGood(prevCount => prevCount - 1);
-    }
-  };
-
-  const badIncrease = () => {
-    if(boolBad==false) {
-      setBoolBad(!boolBad);
-      setBad(prevCount => prevCount + 1);
-    }
-    else {
-      setBoolBad(!boolBad);
-      setBad(prevCount => prevCount - 1);
-  }
-}
 
   return (
     <View style={styles.container}>
@@ -55,7 +28,7 @@ export default function Report() {
         source={require("../img/backgroundimg.png")}
         resizeMode="cover"
       />
-        <View style={{alignItems: "flex-start", paddingBottom: 20}}>
+        <View style={{alignItems: "flex-start"}}>
           <View style={styles.profilebox}>
             <View style={styles.profile}></View>
             <View>
@@ -77,22 +50,16 @@ export default function Report() {
             <Text style={{position:"absolute", right: "3%", top: "2%"}}>3</Text>
           </View>
 
-          <MaterialCommunityIcons name="lifebuoy" size={20} color="black" style={{position:"absolute", left: "15%", bottom: "0%"}} />
-            <Text style={{position:"absolute", left: "12%", bottom: "0%"}}>{good}</Text>
-            <MaterialCommunityIcons name="emoticon-devil" size={20} color="black" style={{position:"absolute", left: "5%" , bottom: "0%"}}/>
-            <Text style={{position:"absolute", left: "23%", bottom: "0%"}}>{bad}</Text>
-          </View>
-
           <View style={{width: "100%", display:"flex", flexDirection:"row", justifyContent: "center", alignItems:"center"}}>
-            <TouchableOpacity style={styles.button} onPress={goodIncrease}>
+            <TouchableOpacity style={styles.button}>
               <Text>재제</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={badIncrease}>
+            <TouchableOpacity style={styles.button}>
               <Text>구제</Text>
             </TouchableOpacity>
-
           </View>
           <Adimg />
+        </View>
         <BottomTabNav />
     </View>
   );

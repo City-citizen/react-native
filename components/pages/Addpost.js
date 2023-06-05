@@ -13,6 +13,9 @@ import BottomTabNav from '../compent/BottomTabNav';
 import { useState, useCallback, useEffect } from "react";
 import axios from 'axios';
 import BoardList from "./BoardList";
+import { setDoc, doc ,addDoc, collection, getFirestore} from 'firebase/firestore'
+import { auth , db } from '../firebase/firebase'
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Addpost() {
     const navigation = useNavigation();
@@ -72,7 +75,7 @@ const submit = async () => {
         name="title" 
         value={title}
         placeholder='제목'
-        //onChange={getValue}
+        onChange={getValue}
         // onChange={(text) => {
         //   setTitle(text);
         // }}

@@ -25,6 +25,9 @@ import TimeTable from "./components/pages/TimeTable";
 import Point from "./components/pages/Point";
 import EachPoint from "./components/pages/EachPoint";
 import License from "./components/pages/License";
+import React, { useState } from 'react';
+
+
 
 const Stack = createStackNavigator();
 
