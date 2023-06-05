@@ -42,16 +42,10 @@ const submit = async () => {
       title: title,
       content: content,
     };
-
-    // Save the post data to Firebase
     await firebase.database().ref('posts').push(postData);
-
-    // Reset the input fields
     setTitle('');
     setContent('');
-    
-    // Navigate to the Board screen
-    navigation.navigate('Board');
+        navigation.navigate('Board');
   } catch (error) {
     console.log(error);
   }
