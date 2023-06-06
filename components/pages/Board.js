@@ -25,7 +25,7 @@ export default function Board() {
   
     useEffect(() => {
         const getpostData = async () => {
-            const postData = collection(db, "post");
+            const postData = collection(db, "UnivercityPost");
             const q = query(postData, orderBy("createdAt", "desc"));
             const querySnapshot = await getDocs(q);
             const posts = querySnapshot.docs.map((doc) => {

@@ -57,9 +57,9 @@ const getValue = (e) => {
 };
 
 
-const addpostFirebase = async ()=>{
+const addpostUnivercityPost = async ()=>{
   const user = auth.currentUser
-  const postRef = doc(collection(db, "post"));
+  const postRef = doc(collection(db, "UnivercityPost"));
   await setDoc(postRef, {
     title : title ,
     content : content ,
@@ -69,10 +69,10 @@ const addpostFirebase = async ()=>{
     comment : 0,
     createdAt : serverTimestamp(),
     postRef : postRef.id,
-
+    report : 0,
 
   });
-console.log("파이어베이스에 post를 추가하였습니다");
+console.log("파이어베이스에 UnivercityPost를 추가하였습니다");
 
 }
 
@@ -119,7 +119,7 @@ return (
               // onSubmit();
               //console.log({title} , {content});
               navigation.navigate("Board", {title:{title}, content:{content} });
-              addpostFirebase();
+              addpostUnivercityPost();
               //submit();
             }} >
                 <Text style={styles.txt}>작성</Text>
