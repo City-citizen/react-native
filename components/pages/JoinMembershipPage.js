@@ -28,7 +28,6 @@ export default function JoinMembershipPage() {
     major : "",
     classyear : "",
     phonenumber : "",
-  
   })
   
   const resultMessages = {
@@ -61,6 +60,7 @@ export default function JoinMembershipPage() {
           postDeleteRate : '',
           CommentsDeleteRate :'',
           photoUrl : '',
+          point : '',
         
 
         });

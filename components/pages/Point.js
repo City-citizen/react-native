@@ -1,13 +1,47 @@
 import React from 'react';
-import { ScrollView,StyleSheet, View, TextInput, TouchableWithoutFeedback, Text, Image,TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableWithoutFeedback, Text, Image,TouchableOpacity } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import BottomTabNav from "../compent/BottomTabNav";
 import Adimg from "../compent/Adimg";
+import { auth , db } from "../firebase/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import {useEffect, useState } from "react";
 
 export default function Point() {
   
   const navigation = useNavigation();
+  const [point, setPoint] = useState("");
+
+  useEffect(() => {
+    const getUserDatapoint = async () => {
+      try {
+
+        const user = auth.currentUser;
+        const uid = user.uid;
+
+        if (!user) {
+          console.log("사용자를 찾을 수 없습니다.");
+          return;
+        }
+  
+        const q = query(collection(db, "users"), where("userUid", "==", uid));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach((doc) => {
+            const userData = doc.data();
+            setPoint(userData.point);
+          });
+        } else {
+          console.log("사용자 문서를 찾을 수 없습니다.");
+        }
+      } catch (error) {
+        console.log("데이터를 가져오는 중에 오류가 발생했습니다.", error);
+      }
+    };
+  
+    getUserDatapoint();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -28,7 +62,7 @@ export default function Point() {
 
     <View style={styles.pointview}>
     
-    <Text style={styles.point}>3,000 CP</Text>
+    <Text style={styles.point}>{point} p</Text>
     
     </View> 
 
@@ -74,13 +108,7 @@ export default function Point() {
           />
           <Text style={styles.buttonText}>도시락</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('EachPoint');}}> 
-          <Image
-            style={styles.buttonImage}
-            source={require('../img/cupramen.jpg')}
-          />
-          <Text style={styles.buttonText}>참깨라면</Text>
-        </TouchableOpacity>
+
 
         <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('EachPoint');}}> 
           <Image
@@ -107,21 +135,19 @@ flex: 1,
 backgroundColor: '#ffff',
 paddingHorizontal: 0,
 alignItems: 'center',
-justifyContent: 'center',
+
 
 },
 searchBar: {
-  width: '90%',
-  height: 30,
+  width: 360,
+  height: 40,
   backgroundColor: '#ffff',
-  borderRadius: 25,
+  borderRadius: 10,
   justifyContent: 'center',
   paddingLeft: 20,
   marginTop: 10,
-  borderBottomWidth: 1,
-  borderLeftWidth:1,
-  borderRightWidth:1,
-  borderTopWidth: 1,
+  borderWidth:2,
+  marginBottom:10,
 },
 pointview:{
     marginTop: 20,
@@ -186,7 +212,8 @@ smallButton: {
   borderRadius: 10,
   justifyContent: 'center',
   alignItems: 'center',
-  
+  marginTop:10,
+  marginBottom:20,
 
 },
 smallButtonsContainer: {
