@@ -59,31 +59,30 @@ export default function License() {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.button}onPress={() => examlink()}>
           <Image
-            style={styles.buttonImage}
+            style={{
+              width: "100%",
+              height: 40,
+            }}
             source={require('../img/exam2.png')}
           />
           <Text style={styles.buttonText}></Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}onPress={() => examlink()}>
-          <Image
-            style={styles.buttonImage}
-            source={require('../img/exam.png')}
-          />
+           <Image
+        style={{
+          width: "100%",
+          height: 40,
+        }}
+        source={require('../img/exam.png')}
+        resizeMode="cover"
+      />
           <Text style={styles.buttonText}></Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
           
           <Text style={styles.buttonText}></Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-       
-          <Text style={styles.buttonText}></Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('MainPage');}}> 
-
-          <Text style={styles.buttonText}></Text>
-        </TouchableOpacity>
+        
 
         <View style={styles.etc}>
         </View>
@@ -102,21 +101,19 @@ flex: 1,
 backgroundColor: '#ffff',
 paddingHorizontal: 0,
 alignItems: 'center',
-justifyContent: 'center',
+
 
 },
 searchBar: {
-  width: '90%',
-  height: 30,
+  width: 360,
+  height: 40,
   backgroundColor: '#ffff',
-  borderRadius: 25,
+  borderRadius: 10,
   justifyContent: 'center',
   paddingLeft: 20,
   marginTop: 10,
-  borderBottomWidth: 1,
-  borderLeftWidth:1,
-  borderRightWidth:1,
-  borderTopWidth: 1,
+  borderWidth:2,
+  marginBottom:10,
 },
 pointview:{
     marginTop: 20,
@@ -142,7 +139,7 @@ marginTop: 5,
 },
 
 button: {
-  width: '80%',
+  width: 360,
   height: 60,
   borderRadius: 10,
   backgroundColor: '#ffffff',
@@ -160,9 +157,9 @@ alignItems: 'center',
 },
 
 buttonImage: {
-width: '60%',
-height: 40,
-marginLeft:20,
+width: '100%',
+height: '100%',
+
 
 },
 buttonText: {
@@ -184,7 +181,8 @@ smallButton: {
   borderRadius: 10,
   justifyContent: 'center',
   alignItems: 'center',
-  
+  marginTop:10,
+  marginBottom:20,
 
 },
 smallButtonsContainer: {

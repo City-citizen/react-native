@@ -62,7 +62,7 @@ export default function Point() {
 
     <View style={styles.pointview}>
     
-    <Text style={styles.point}>{point} p</Text>
+    <Text style={styles.point}>{point} cp</Text>
     
     </View> 
 
@@ -87,21 +87,21 @@ export default function Point() {
         </View>
 
       <View style={styles.buttonsContainer}>
-      <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('EachPoint');}}> 
+      <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('Candy');}}> 
           <Image
             style={styles.buttonImage}
             source={require('../img/candy.jpg')}
           />
           <Text style={styles.buttonText}>츄팝츄스</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('EachPoint');}}> 
+        <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('Kimbob');}}> 
           <Image
             style={styles.buttonImage}
             source={require('../img/gimbap.jpg')}
           />
           <Text style={styles.buttonText}>삼각김밥</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('EachPoint');}}> 
+        <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('Lunchbox');}}> 
           <Image
             style={styles.buttonImage}
             source={require('../img/lunchbox.jpg')}
@@ -110,7 +110,7 @@ export default function Point() {
         </TouchableOpacity>
 
 
-        <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('EachPoint');}}> 
+        <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('Cocacola');}}> 
           <Image
             style={styles.buttonImage}
             source={require('../img/drink.jpg')}
