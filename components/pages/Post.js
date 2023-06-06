@@ -8,14 +8,22 @@ import {
   Image,
   Modal,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Adimg from "../compent/Adimg";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import axios from 'axios';
+import {updateDoc ,getDoc , doc } from "firebase/firestore";
+import { db } from "../firebase/firebase";
+
 
 export default function Post() {
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const { postRef } = route.params;
+  const [post, setPost] = useState(null);
+  const [writer, setWriter ] = useState(null);
   
   const [modalVisible, setModalVisible] = useState(false);
   const [replymodalVisible, setreplyModalVisible] = useState(false);
@@ -28,18 +36,31 @@ export default function Post() {
   const [bad, setBad] = useState(0);
   const [replgood, setreplGood] = useState(0);
   const [replbad, setreplBad] = useState(0);
-
-  const goodIncrease = () => {
-    if(boolGood==false) {
+  
+  const goodIncrease = async () => {
+    if (!boolGood) {
       setBoolGood(!boolGood);
       setGood(prevCount => prevCount + 1);
-    }
-    else {
+      try {
+        const postDocRef = doc(db, "post", postRef);
+        await updateDoc(postDocRef, { good: post.good + 1 });
+        console.log("Firestore의 'good' 필드를 업데이트했습니다.");
+      } catch (error) {
+        console.log("Firestore의 'good' 필드 업데이트 중 오류 발생:", error);
+      }
+    } else {
       setBoolGood(!boolGood);
       setGood(prevCount => prevCount - 1);
+      try {
+        const postDocRef = doc(db, "post", postRef);
+        await updateDoc(postDocRef, { good: post.good - 1 });
+        console.log("Firestore의 'good' 필드를 업데이트했습니다.");
+      } catch (error) {
+        console.log("Firestore의 'good' 필드 업데이트 중 오류 발생:", error);
+      }
     }
   };
-
+/*
   const badIncrease = () => {
     if(boolBad==false) {
       setBoolBad(!boolBad);
@@ -50,6 +71,30 @@ export default function Post() {
       setBad(prevCount => prevCount - 1);
   }
 }
+*/
+const badIncrease = async () => {
+  if (!boolBad) {
+    setBoolBad(!boolBad);
+    setBad(prevCount => prevCount + 1);
+    try {
+      const postDocRef = doc(db, "post", postRef);
+      await updateDoc(postDocRef, { bad: post.bad + 1 });
+      console.log("Firestore의 'bad' 필드를 업데이트했습니다.");
+    } catch (error) {
+      console.log("Firestore의 'bad' 필드 업데이트 중 오류 발생:", error);
+    }
+  } else {
+    setBoolBad(!boolBad);
+    setBad(prevCount => prevCount - 1);
+    try {
+      const postDocRef = doc(db, "post", postRef);
+      await updateDoc(postDocRef, { good: post.bad - 1 });
+      console.log("Firestore의 'bad' 필드를 업데이트했습니다.");
+    } catch (error) {
+      console.log("Firestore의 'bad' 필드 업데이트 중 오류 발생:", error);
+    }
+  }
+};
 
   const replgoodIncrease = () => {
     if(boolreplGood==false) {
@@ -73,6 +118,42 @@ export default function Post() {
   }
 }
 
+useEffect(()=>{
+  const fetchPostData = async () =>{
+    try {
+      const postDocRef = doc(db, "post", postRef);
+      const postDocSnap = await getDoc(postDocRef);
+      
+
+
+      if(postDocSnap.exists()){
+        const postData = postDocSnap.data();
+        const writerUid = postData.userUid;
+
+        const userDocRef = doc(db, "users", writerUid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if(userDocSnap.exists()) {
+          const writerData = userDocSnap.data();
+          setWriter(writerData);
+          console.log(writerData);
+        }else{
+          console.log("글쓴이정보를 찾을수없습니다");
+        }
+
+        setPost(postData);
+      }else {
+        console.log("게시물이 존재하지않습니다");
+      }
+      
+    }catch (error){
+      console.log("데이터가져오는도중오류발생", error)
+    }
+  };
+  fetchPostData();
+
+}, [postRef]);
+
   return (
     <View style={styles.container}>
         <Image
@@ -89,8 +170,8 @@ export default function Post() {
       <Modal
         visible={modalVisible}
         animationType="none"
-        presentationStyle="formSheet"
-        transparent={true}
+        //presentationStyle="formSheet"
+        //transparent={true}
       >
         {/* 게시물 모달 */}
         <View style={styles.modal}>
@@ -117,7 +198,7 @@ export default function Post() {
       <Modal
         visible={replymodalVisible}
         animationType="none"
-        presentationStyle='formSheet'
+        //presentationStyle='formSheet'
         transparent={true}
       >
         <View style={styles.replymodal}>
@@ -141,20 +222,20 @@ export default function Post() {
           <View style={styles.profilebox}>
             <View style={styles.profile}></View>
             <View>
-              <Text style={styles.info}>컴퓨터공학과(ax123)</Text>
-              <Text style={styles.date}>2012/11/24 14:59</Text>
+              <Text style={styles.info}>{writer?.major}({writer?.name})</Text>
+              <Text style={styles.date}>{post?.createdAt?.toDate().toString()}</Text>
             </View>
             <MaterialCommunityIcons name="dots-vertical" size={25} color="black" style={{position:"absolute", right: "6%", bottom: "2%"}}
             onPress={() => setModalVisible(true)}/>
           </View>
 
           <View style={styles.postbox}>
-            <Text style={styles.title}>개굴개굴</Text>
-            <Text style={styles.content}>개굴개굴개굴</Text>
+            <Text style={styles.title}>{post?.title}</Text>
+            <Text style={styles.content}>{post?.content}</Text>
             <MaterialIcons name="thumb-up" size={20} color="black" style={{position:"absolute", left: "15%", bottom: "0%"}} />
-            <Text style={{position:"absolute", left: "12%", bottom: "0%"}}>{good}</Text>
+            <Text style={{position:"absolute", left: "12%", bottom: "0%"}}>{post?.good}</Text>
             <MaterialIcons name="thumb-down" size={20} color="black" style={{position:"absolute", left: "5%" , bottom: "0%"}}/>
-            <Text style={{position:"absolute", left: "23%", bottom: "0%"}}>{bad}</Text>
+            <Text style={{position:"absolute", left: "23%", bottom: "0%"}}>{post?.bad}</Text>
           </View>
 
           <View style={{width: "100%", display:"flex", flexDirection:"row", justifyContent: "center", alignItems:"center"}}>

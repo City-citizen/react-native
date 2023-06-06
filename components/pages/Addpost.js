@@ -59,7 +59,8 @@ const getValue = (e) => {
 
 const addpostFirebase = async ()=>{
   const user = auth.currentUser
-  await setDoc(doc(collection(db, "post"), ), {
+  const postRef = doc(collection(db, "post"));
+  await setDoc(postRef, {
     title : title ,
     content : content ,
     userUid : user.uid,
@@ -67,6 +68,7 @@ const addpostFirebase = async ()=>{
     bad : 0,
     comment : 0,
     createdAt : serverTimestamp(),
+    postRef : postRef.id,
 
 
   });

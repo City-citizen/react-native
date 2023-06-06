@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Adimg from '../compent/Adimg';
@@ -33,6 +34,7 @@ export default function Board() {
                     title: doc.data().title,
                     content: doc.data().content,
                     good: doc.data().good,
+                    bad: doc.data().bad,
                     comment: doc.data().comment,
                 };
             });
@@ -42,6 +44,7 @@ export default function Board() {
     }, []);
   
     return (
+      <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
             <Image
                 style={{
@@ -54,12 +57,16 @@ export default function Board() {
                 source={require("../img/backgroundimg.png")}
                 resizeMode="cover"
             />
+
+            <View style={styles.container2}>
             <TextInput
                 style={styles.input}
                 placeholder="검색"
                 placeholderTextColor="black"
             />
+             </View>
             <Adimg />
+            <View style={styles.addview}>
             <MaterialCommunityIcons
                 size={20}
                 name="pencil"
@@ -67,9 +74,15 @@ export default function Board() {
                     navigation.navigate("Addpost");
                 }}
             />
+           
+
             <TouchableOpacity onPress={() => navigation.navigate("Addpost")}>
                 <Text>추가</Text>
             </TouchableOpacity>
+            </View> 
+              
+
+            <View style={styles.container2}>
             {postList.length > 0 ? (
                 <View style={{ width: "90%" }}>
                     {postList.map((p) => (
@@ -80,7 +93,7 @@ export default function Board() {
                             <Text
                                 style={styles.title}
                                 onPress={() => {
-                                    navigation.navigate("Post");
+                                  navigation.navigate("Post", {postRef: p.id});
                                 }}
                             >
                                 {p.title}
@@ -89,28 +102,33 @@ export default function Board() {
                             <View style={{ position: "relative" }}>
                                 <MaterialIcons
                                     name="thumb-up"
-                                    size={20}
-                                    color="black"
+                                    size={15}
+                                    color="#AEC6CF"
                                     style={{ position: "absolute", right: "16%", bottom: "1%" }}
                                 />
-                                <Text style={{ position: "absolute", right: "13%", bottom: "1%" }}>{p.good}</Text>
+                                <Text style={{ position: "absolute", right: "13%", bottom: "1%" ,fontSize: 13,}}>{p.good}</Text>
                                 <MaterialIcons
                                     name="thumb-down"
-                                    size={20}
-                                    color="black"
+                                    size={15}
+                                    color="#FFB6C1"
                                     style={{ position: "absolute", right: "5%", bottom: "1%" }}
                                 />
-                                <Text style={{ position: "absolute", right: "2%", bottom: "1%" }}>{p.comment}</Text>
+                                <Text style={{ position: "absolute", right: "2%", bottom: "1%",fontSize: 13, }}>{p.bad}</Text>
                             </View>
                         </View>
                     ))}
+                    
                 </View>
             ) : (
                 <Text>아직 글이 없음</Text>
-            )}
-            <MaterialCommunityIcons size={20} name="pencil" onPress={() => navigation.navigate("Addpost")} />
+            )}</View>
+            <View style={styles.etc}>
+        </View>
+            
             <BottomTabNav />
         </View>
+        
+        </ScrollView>
     )
 }
 
@@ -118,11 +136,25 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "white",
-        alignItems: "center",
+        
         zIndex: 2,
     },
+    container2: {
+      alignItems: "center"
+
+  },
+
+    addview:{
+      flexDirection: "column",
+      alignItems: "flex-end",
+      justifyContent: "flex-end",
+      marginRight:'7%',
+      paddingTop : 10,
+      paddingBottom : 10,
+
+  },
     postbox: {
-        width: "95%",
+        width: "100%",
         borderBottomColor: "black",
         borderBottomWidth: 1,
         marginBottom: 15,
@@ -133,6 +165,8 @@ const styles = StyleSheet.create({
         marginLeft: "auto",
         marginRight: "auto",
         backgroundColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
     },
     title: {
         fontSize: 18,
@@ -141,7 +175,7 @@ const styles = StyleSheet.create({
         marginBottom: 7,
     },
     content: {
-        marginLeft: 2,
+        marginLeft: 15,
     },
     input: {
         height: 40,
@@ -155,4 +189,17 @@ const styles = StyleSheet.create({
         marginTop: 35,
         backgroundColor: "white",
     },
+    
+    etc: {
+  
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 250,
+      height: 100,
+    
+      
+      },
+
 });
