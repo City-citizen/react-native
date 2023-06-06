@@ -14,6 +14,10 @@ import { useState, useCallback, useEffect } from "react";
 import axios from 'axios';
 import BoardList from "./BoardList";
 
+import { doc , setDoc , collection, serverTimestamp } from "firebase/firestore";
+import { auth , db } from "../firebase/firebase";
+
+
 export default function Addpost() {
     const navigation = useNavigation();
     
@@ -27,6 +31,8 @@ const [inputs, setInputs] = useState({
   content:'',
 });
 
+
+/*
 useEffect(()=>{
   axios.get('http://localhost:19006/board/1').then((response)=>{
     console.log(response.data);
@@ -41,7 +47,7 @@ const submit = ()=>{
     alert('등록 완료!');
   })
 };
-
+*/
 const getValue = (e) => {
   const { name, value } = e.target;
   setInputs({
@@ -50,7 +56,27 @@ const getValue = (e) => {
   })
 };
 
-  return (
+
+const addpostFirebase = async ()=>{
+  const user = auth.currentUser
+  await setDoc(doc(collection(db, "post"), ), {
+    title : title ,
+    content : content ,
+    userUid : user.uid,
+    good : 0,
+    bad : 0,
+    comment : 0,
+    createdAt : serverTimestamp(),
+
+
+  });
+console.log("파이어베이스에 post를 추가하였습니다");
+
+}
+
+
+
+return (
     <View style={styles.container}>
         <Image
         style={{
@@ -91,7 +117,8 @@ const getValue = (e) => {
               // onSubmit();
               //console.log({title} , {content});
               navigation.navigate("Board", {title:{title}, content:{content} });
-              submit();
+              addpostFirebase();
+              //submit();
             }} >
                 <Text style={styles.txt}>작성</Text>
             </TouchableOpacity>
