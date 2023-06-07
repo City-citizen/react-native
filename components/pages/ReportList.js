@@ -10,8 +10,10 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Adimg from '../compent/Adimg';
 import BottomTabNav from '../compent/BottomTabNav';
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect} from "react";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { db } from "../firebase/firebase";
 
 export default function ReportList() {
     const navigation = useNavigation();
@@ -32,55 +34,83 @@ export default function ReportList() {
     ]);
   }, [postList]);
 
+  useEffect(() => {
+    const getpostData = async () => {
+        const postData = collection(db, "report");
+        const q = query(postData, orderBy("timestamp", "desc"));
+        const querySnapshot = await getDocs(q);
+        const posts = querySnapshot.docs.map((doc) => {
+            return {
+                id: doc.id,
+                title: doc.data().title,
+                content: doc.data().content,
+                good: doc.data().good,
+                bad: doc.data().bad,
+                comment: doc.data().comment,
+            };
+        });
+        setPostList(posts);
+    }
+    getpostData();
+}, []);
 
-  
 
-  return (
-    <View style={styles.container}>
-        <Image
-        style={{
-          width: "100%",
-          height: "100%",
-          position: "absolute",
-          bottom: -55,
-          zIndex: -1,
-        }}
-        source={require("../img/backgroundimg.png")}
-        resizeMode="cover"
-      />
-        <TextInput
-        style={styles.input}
-        placeholder="검색"
-        placeholderTextColor="black"
-      />
-        <Adimg />
-        <TouchableOpacity onPress={addPost}>
-            <Text>추가</Text>
-        </TouchableOpacity>
-        {isPost ? (
-        <View style={{width: "90%"}}>
-        {postList.map((p) => (
-          <View style={styles.postbox}
+return (
+  <View style={styles.container}>
+    <Image
+      style={{
+        width: "100%",
+        height: "100%",
+        position: "absolute",
+        bottom: -55,
+        zIndex: -1,
+      }}
+      source={require("../img/backgroundimg.png")}
+      resizeMode="cover"
+    />
+    <TextInput
+      style={styles.input}
+      placeholder="검색"
+      placeholderTextColor="black"
+    />
+    <Adimg />
+    <View style={{ width: "90%" }}>
+      {postList.map((p) => (
+        <View
+          style={styles.postbox}
           key={p.id}
+          
+        >
+          <Text
+            style={styles.title}
+            onPress={() => {
+              navigation.navigate("Report",{postRef: p.id});
+              console.log(p.id);
+            }}
           >
-          <Text style={styles.title}
-          onPress={() => {
-            navigation.navigate("Report");}}
-            >{p.title}</Text>
+            {p.title}
+          </Text>
           <Text>{p.date}</Text>
-          <View style={{ position:"relative"}}>
-            <MaterialIcons name="thumb-down" size={20} color="black" style={{position:"absolute", right: "5%", bottom: "0%"}} />
-            <Text style={{position:"absolute", right: "2%", bottom: "0%"}}>{p.report}</Text>
+          <View style={{ position: "relative" }}>
+            <MaterialIcons
+              name="thumb-down"
+              size={20}
+              color="black"
+              style={{ position: "absolute", right: "5%", bottom: "0%" }}
+            />
+            <Text
+              style={{ position: "absolute", right: "2%", bottom: "0%" }}
+            >
+              {p.report}
+            </Text>
           </View>
         </View>
-        ))}
-      </View>
-      ) : (
-        <Text>아직 글이 없음</Text>
-      )}
-      <BottomTabNav />
+      ))}
     </View>
-  )
+    {postList.length === 0 && <Text>아직 글이 없음</Text>}
+    <BottomTabNav />
+  </View>
+);
 }
 
 const styles = StyleSheet.create({

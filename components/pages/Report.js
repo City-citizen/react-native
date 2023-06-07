@@ -7,13 +7,79 @@ import {
   View,
   Image,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import { useNavigation , useRoute } from "@react-navigation/native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Adimg from "../compent/Adimg";
 import BottomTabNav from '../compent/BottomTabNav';
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase/firebase";
 
 export default function Report() {
   const navigation = useNavigation();
+
+  const route = useRoute();
+  const { postRef } = route.params;
+  const [writer , setWriter] = useState(null);
+  const [post , setPost] = useState(null);
+
+  useEffect(()=>{
+    const fetchreportData = async () =>{
+      try {
+  
+  
+        const reportDocRef = doc(db, "report", postRef);
+        const reportDocSnap = await getDoc(reportDocRef);
+        
+        
+  
+  
+        if(reportDocSnap.exists()){
+          const reportData = reportDocSnap.data();
+          const writerUid = reportData.userUid;
+  
+          const userDocRef = doc(db, "users", writerUid);
+          const userDocSnap = await getDoc(userDocRef);
+  
+          
+  
+          if(userDocSnap.exists()) {
+            const writerData = userDocSnap.data();
+            setWriter(writerData);
+            console.log(writerData);
+          }else{
+            console.log("글쓴이정보를 찾을수없습니다");
+          }
+  
+          setPost(reportData);
+          
+        }else {
+          console.log("게시물이 존재하지않습니다");
+        }
+        
+      }catch (error){
+        console.log("데이터가져오는도중오류발생", error)
+      }
+    };
+    fetchreportData();
+  
+  }, [postRef]);
+
+  //제재 함수
+  const Sanctions = async()=>{
+    console.log('sanctions')
+
+  }
+
+  const save = async()=>{
+    console.log('save')
+
+  }
+
+
+  
+  
+
 
   return (
     <View style={styles.container}>
@@ -32,29 +98,24 @@ export default function Report() {
           <View style={styles.profilebox}>
             <View style={styles.profile}></View>
             <View>
-              <Text style={styles.info}>컴퓨터공학과(ax123)</Text>
+              <Text style={styles.info}>{writer?.major}(ax123)</Text>
             </View>
           </View>
 
           <View style={styles.postbox}>
-            <Text style={styles.title}>개굴개굴</Text>
-            <Text style={styles.content}>개굴개굴개굴</Text>
+            <Text style={styles.title}>{post?.title}</Text>
+            <Text style={styles.content}>{post?.content}</Text>
             <MaterialCommunityIcons name="thumb-down" size={20} color="black" style={{position:"absolute", right: "6%", top: "2%"}} />
-            <Text style={{position:"absolute", right: "3%", top: "2%"}}>2</Text>
+            <Text style={{position:"absolute", right: "3%", top: "2%"}}>{post?.bad}</Text>
           </View>
 
-          <View style={styles.postbox}>
-            <Text style={styles.title}>개굴개굴</Text>
-            <Text style={styles.content}>개굴개굴개굴</Text>
-            <MaterialCommunityIcons name="thumb-down" size={20} color="black" style={{position:"absolute", right: "6%", top: "2%"}} />
-            <Text style={{position:"absolute", right: "3%", top: "2%"}}>3</Text>
-          </View>
+          
 
           <View style={{width: "100%", display:"flex", flexDirection:"row", justifyContent: "center", alignItems:"center"}}>
-            <TouchableOpacity style={styles.button}>
-              <Text>재제</Text>
+            <TouchableOpacity style={styles.button} onPress={Sanctions}>
+              <Text>제재</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={save}>
               <Text>구제</Text>
             </TouchableOpacity>
           </View>

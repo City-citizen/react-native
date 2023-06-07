@@ -110,6 +110,8 @@ const reportIncrease = async () => {
         content: reportSnapshot.data().content,
         userUid: reportSnapshot.data().userUid,
         bad: reportSnapshot.data().bad,
+        sanctions: 0,
+        save: 0,
 
       }
       const reportDocRef = await addDoc(collection(db, "report"), reportData);
@@ -339,7 +341,7 @@ return (
           name="dots-vertical"
           size={25}
           color="black"
-          style={{ position: "absolute", right: "6%", bottom: "2%" }}
+          style={{ marginLeft:75 }}
           onPress={() => setModalVisible(true)}
         />
       </View>
@@ -347,26 +349,27 @@ return (
       <View style={styles.postbox}>
         <Text style={styles.title}>{post?.title}</Text>
         <Text style={styles.content}>{post?.content}</Text>
+        <View style={{ flexDirection: "row", alignItems: "flex-end",marginTop:5 }}>
         <MaterialIcons
           name="thumb-up"
           size={20}
           color="black"
-          style={{ position: "absolute", left: "15%", bottom: "0%" }}
+          style={{marginLeft:15 }}
         />
-        <Text style={{ position: "absolute", left: "12%", bottom: "0%" }}>
+        <Text style={{marginLeft:5}}>
           {post?.good}
         </Text>
         <MaterialIcons
           name="thumb-down"
           size={20}
           color="black"
-          style={{ position: "absolute", left: "5%", bottom: "0%" }}
+          style={{ marginLeft:5 }}
         />
-        <Text style={{ position: "absolute", left: "23%", bottom: "0%" }}>
+        <Text style={{ marginLeft:5 }}>
           {post?.bad}
         </Text>
       </View>
-
+      </View>
       <View
         style={{
           width: "100%",
@@ -431,7 +434,7 @@ return (
           name="dots-vertical"
           size={25}
           color="black"
-          style={{ position: "absolute", right: "6%", bottom: "2%" }}
+          style={{ marginLeft:250 }}
           onPress={() => setreplyModalVisible(true)}
         />
       </View>
