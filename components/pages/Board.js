@@ -20,7 +20,7 @@ import { collection, query, getDocs, orderBy } from "firebase/firestore";
 
 export default function Board() {
     const navigation = useNavigation();
-  
+   
     const [postList, setPostList] = useState([]);
   
     useEffect(() => {
@@ -44,8 +44,9 @@ export default function Board() {
     }, []);
   
     return (
-      <ScrollView style={styles.scrollView}>
+      
         <View style={styles.container}>
+          <ScrollView style={styles.scrollView}>
             <Image
                 style={{
                     width: "100%",
@@ -124,11 +125,12 @@ export default function Board() {
             )}</View>
             <View style={styles.etc}>
         </View>
-            
+        </ScrollView>
             <BottomTabNav />
+            
         </View>
         
-        </ScrollView>
+       
     )
 }
 

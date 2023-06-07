@@ -26,7 +26,7 @@ export default function MyPage() {
   
   
   const [major, setMajor] = useState("");
-
+  const [postReportedCount , setPostReportedCount] = useState(null);
 
   //user.id를 이용해 파이어베이스에 있는 major 값 가져오기
   useEffect(() => {
@@ -47,6 +47,7 @@ export default function MyPage() {
           querySnapshot.forEach((doc) => {
             const userData = doc.data();
             setMajor(userData.major);
+            setPostReportedCount(userData.postReportedCount);
           });
         } else {
           console.log("사용자 문서를 찾을 수 없습니다.");
@@ -119,7 +120,7 @@ export default function MyPage() {
 
       <View style={styles.myList}>
         <View style={styles.list}>
-          <Text style={{ fontSize: 18 }}>게시물 삭제율: </Text>
+          <Text style={{ fontSize: 18 }}>게시물 신고 수 : {postReportedCount}</Text>
         </View>
         <View style={styles.list}>
           <Text style={{ fontSize: 18 }}>댓글 삭제율: </Text>

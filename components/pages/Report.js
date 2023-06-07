@@ -12,8 +12,8 @@ import { useNavigation , useRoute } from "@react-navigation/native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Adimg from "../compent/Adimg";
 import BottomTabNav from '../compent/BottomTabNav';
-import { deleteDoc, doc, getDoc, increment, updateDoc } from "firebase/firestore";
-import { db } from "../firebase/firebase";
+import { collection,deleteDoc, doc, getDoc, increment, updateDoc } from "firebase/firestore";
+import { auth, db } from "../firebase/firebase";
 
 export default function Report() {
   const navigation = useNavigation();
@@ -76,6 +76,12 @@ export default function Report() {
         console.log("이미 제재를 넣었습니다.");
         return;
       }
+      if (isSaved){
+        console.log("이미 구제버튼을 누르셨습니다")
+        return;
+      }
+      const user = auth.currentUser;
+
       
       const reportDocRef = doc(db, "report", postRef);
       const reportDocSnap = await getDoc(reportDocRef);
@@ -87,7 +93,10 @@ export default function Report() {
         await updateDoc(reportDocRef, { sanctions: increment(1), count: increment(1) });
         console.log("제재가 적용되었습니다.");
         const reportData = reportDocSnap.data();
-        const {count , sanctions , save} = reportData;  
+        const {userUid , count , sanctions , save} = reportData;
+        
+        const userDataPoint = doc(collection(db, "users"), user.uid);
+        await updateDoc(userDataPoint, { point: increment(5)});
         // 제재를 넣은 게시물의 ID를 목록에 추가
         setSanctionedPosts([...sanctionedPosts, postRef]);
         setIsSanctioned(true);
@@ -98,7 +107,10 @@ export default function Report() {
             
           ]);
           console.log("제제가 적용되어 문서가 삭제되었습니다");
-
+          //신고된 게시판의 작성자 포인트차감
+          const userDataPoint = doc(collection(db, "users"), userUid);
+          await updateDoc(userDataPoint, { postReportedCount : increment(1) ,point: increment(-100)});
+          
         }else if(count == 10){
           await deleteDoc(reportDocRef);
           console.log("구제되어 문서가 삭제되었습니다.");
@@ -120,6 +132,10 @@ export default function Report() {
         console.log("구제를 이미적용했습니다.");
         return;
       }
+      if(isSanctioned){
+        console.log("이미 제재 버튼을 누르셨습니다");
+        return;
+      }
   
       const reportDocRef = doc(db, "report", postRef);
       const reportDocSnap = await getDoc(reportDocRef);
@@ -133,7 +149,10 @@ export default function Report() {
         console.log("구제가 저장되었습니다.");
         setIsSaved(true);
         const reportData = reportDocSnap.data();
-        const {count , sanctions , save} = reportData;
+        const {userUid , count , sanctions , save} = reportData;
+        const user = auth.currentUser;
+        const userDataPoint = doc(collection(db, "users"), user.uid);
+        await updateDoc(userDataPoint, { point: increment(5)});
         
         if(count == 10 && save > sanctions){
           await deleteDoc(reportDocRef);
@@ -148,6 +167,8 @@ export default function Report() {
             
           ]);
           console.log("제재되어 문서가 삭제되었습니다.");
+          const userDataPoint = doc(collection(db, "users"), userUid);
+          await updateDoc(userDataPoint, { postReportedCount: increment(1),point: increment(-100)});
           
         }
 

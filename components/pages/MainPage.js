@@ -14,16 +14,37 @@ import Adimg from "../compent/Adimg";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import React, {useEffect, useState } from "react";
-
-
-
 import { auth , db } from "../firebase/firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, query, getDocs, orderBy, where } from "firebase/firestore";
+
+
 
 
 
 export default function MainPage() {
   const navigation = useNavigation();
+  const [postList, setPostList] = useState([]);
+  
+  useEffect(() => {
+      const getpostData = async () => {
+          const postData = collection(db, "UnivercityPost");
+          const q = query(postData, orderBy("createdAt", "desc"));
+          const querySnapshot = await getDocs(q);
+          const posts = querySnapshot.docs.map((doc) => {
+              return {
+                  id: doc.id,
+                  title: doc.data().title,
+                  content: doc.data().content,
+                  good: doc.data().good,
+                  bad: doc.data().bad,
+                  comment: doc.data().comment,
+              };
+          });
+          setPostList(posts);
+      }
+      getpostData();
+  }, []);
+
   const weatherlink = () => {
     Linking.openURL("https://weather.naver.com/today/06290107?cpName=KMA");
   };
@@ -97,19 +118,65 @@ export default function MainPage() {
 
       <Adimg />
 
-      <View style={styles.univercity}>
-        <Text>Univer city</Text>
+     
+        <View style={styles.univercity}>
+        <Text style={{fontSize:17,fontWeight:"500"}}>Univer city</Text>
+                   <View style={styles.container2}>
+  {postList.length > 0 ? (
+    <View style={{ width: "90%" }}>
+      
+        <View style={{ alignItems:"flex-start" ,marginTop:8}}>
+       
+        <Text style={styles.title}onPress={() => {
+                                  navigation.navigate("Post", {postRef: postList[0].id});
+                                }}>[ {postList[0].title} ]</Text>
+
+
+                                
+        
+        </View>
+        <View style={{ position: "relative" }}>
+          <MaterialIcons
+            name="thumb-up"
+            size={15}
+            color="#AEC6CF"
+            style={{ position: "absolute", right: "16%", bottom: "1%" }}
+          />
+          <Text style={{ position: "absolute", right: "13%", bottom: "1%", fontSize: 13 }}>
+            {postList[0].good}
+          </Text>
+          <MaterialIcons
+            name="thumb-down"
+            size={15}
+            color="#FFB6C1"
+            style={{ position: "absolute", right: "5%", bottom: "1%" }}
+          />
+          <Text style={{ position: "absolute", right: "2%", bottom: "1%", fontSize: 13 }}>
+            {postList[0].bad}
+          </Text>
+        </View>
+      
+    </View>
+  ) : (
+    <Text>아직 글이 없음</Text>
+  )}
+</View>
+</View>
+
+<View style={styles.majorcity}>
+<Text style={{fontSize:17,fontWeight:"500"}}>Major city</Text>
         <View style={{ flexDirection: "row", marginTop: 10 }}>
           <TouchableOpacity>
             <Text
               style={{
-                fontSize: 20,
+                fontSize: 13,
                 borderColor: "black",
                 //borderWidth: 1,
                 width: 320,
+                alignContent:"center"
               }}
             >
-              가장 최신의 글
+              <Text> 최근작성된 글이 없습니다 </Text>
             </Text>
             {/* 게시물로 */}
           </TouchableOpacity>
@@ -119,41 +186,22 @@ export default function MainPage() {
         </View>
       </View>
 
-      <View style={styles.majorcity}>
-        <Text>Major city</Text>
-        <View style={{ flexDirection: "row", marginTop: 10 }}>
-          <TouchableOpacity>
-            <Text
-              style={{
-                fontSize: 20,
-                borderColor: "black",
-                //borderWidth: 1,
-                width: 320,
-              }}
-            >
-              가장 최신의 글
-            </Text>
-            {/* 게시물로 */}
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <MaterialIcons name="more-vert" size={25} color="black" />
-          </TouchableOpacity>
-        </View>
-      </View>
+
 
       <View style={styles.mycity}>
-        <Text>My city</Text>
+      <Text style={{fontSize:17,fontWeight:"500"}}>My city</Text>
         <View style={{ flexDirection: "row", marginTop: 10 }}>
           <TouchableOpacity>
             <Text
               style={{
-                fontSize: 20,
+                fontSize: 13,
                 borderColor: "black",
                 //borderWidth: 1,
                 width: 320,
+                alignContent:"center"
               }}
             >
-              가장 최신의 글
+              <Text> 최근작성된 글이 없습니다 </Text>
             </Text>
             {/* 게시물로 */}
           </TouchableOpacity>
@@ -217,7 +265,7 @@ export default function MainPage() {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            navigation.navigate("");
+            navigation.navigate("ReportList");
           }}
         >
           <Image
@@ -262,6 +310,7 @@ const styles = StyleSheet.create({
     marginVertical: 7,
     color: "white",
     height: 70,
+    
   },
   majorcity: {
     width: 360,
@@ -288,7 +337,7 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     flexDirection: "row",
-    marginVertical: 7,
+    margin: 7,
   },
   button: {
     backgroundColor: "white",
@@ -303,5 +352,40 @@ const styles = StyleSheet.create({
   },
   buttonContents:{
     flexDirection:"column",
-  }
+  },
+  container2: {
+    alignItems: "center"
+
+},
+
+  addview:{
+    flexDirection: "column",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    marginRight:'7%',
+    paddingTop : 10,
+    paddingBottom : 10,
+
+},
+  postbox: {
+      width: "100%",
+      borderBottomColor: "black",
+      borderBottomWidth: 1,
+      marginBottom: 15,
+      paddingTop: 10,
+      paddingBottom: 10,
+      paddingLeft: 10,
+      paddingRight: "auto",
+      marginLeft: "auto",
+      marginRight: "auto",
+      backgroundColor: "white",
+      borderWidth: 1,
+      borderRadius: 10,
+  },
+
+  title: {
+    
+    fontSize:13,
+},
+
 });

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  ScrollView,
   Modal,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -154,7 +155,7 @@ const submitComment = async ()=>{
   const userDoc = await getDoc(userRef);
 
   if(userDoc.exists()){
-
+    const user = auth.currentUser;
     const majorValue = userDoc.data().major;
     
     const commentRef = doc(collection(db, "Univercitycomment"));
@@ -170,6 +171,10 @@ const submitComment = async ()=>{
 
   });
   console.log("파이어베이스에 Univercitycomment를 추가하였습니다");
+  
+
+  const userDataPoint = doc(collection(db, "users"), user.uid);
+  await updateDoc(userDataPoint, { point: increment(10)});
 
   }else{
     console.log("사용자 문서를 찾을 수 없습니다");
@@ -212,6 +217,9 @@ const deletepost = async()=>{
   if(user.uid == writerUid){
     try{
     await deleteDoc(doc(db, "UnivercityPost", postRef))
+
+    const userDataPoint = doc(collection(db, "users"), user.uid);
+    await updateDoc(userDataPoint, { point: increment(-100)});
     console.log('게시물이 삭제되었습니다');
 
   } catch (error){
@@ -326,8 +334,8 @@ return (
         </TouchableOpacity>
       </View>
     </Modal>
-
-    <View style={{ alignItems: "flex-start" }}>
+    <ScrollView>
+    <View style={{ alignItems: "flex-start" ,marginLeft:4}}>
       <View style={styles.profilebox}>
         <View style={styles.profile}></View>
         <View>
@@ -395,7 +403,8 @@ return (
       </View>
 
       <Adimg />
-
+      
+      <View style={{flex:1,flexwrap:1,}}>
       <View style={styles.input}>
         <TextInput
           style={{
@@ -416,7 +425,7 @@ return (
             name="send"
             size={20}
             color="black"
-            style={{ marginTop: 9, marginLeft: 3 }}
+            style={{ marginTop: 7, marginLeft: 3 ,marginBottom:4}}
           />
         </TouchableOpacity>
       </View>
@@ -424,7 +433,9 @@ return (
           
       <View>
   {comments.map((comment) => (
-    <View key={comment.id}>
+    <View key={comment.id}
+    style={{ marginLeft:5,borderBottomWidth:1,borderColor:"black",borderRadius:10,marginBottom:5}}
+    >
       <View style={styles.profilebox}>
         <View style={styles.profile}></View>
         <View>
@@ -461,11 +472,18 @@ return (
           <Text style={{ marginLeft: 5 }}>{comment.bad}</Text>
         </View>
       </View>
+      
     </View>
   ))}
 </View>
+</View>
+
     </View>
 
+    <View style={styles.etc}>
+        </View>
+
+    </ScrollView>
     <BottomTabNav />
   </View>
 );
@@ -484,7 +502,7 @@ profile: {
   backgroundColor: "white",
   width: 34,
   height: 34,
-  marginLeft: 15,
+  marginLeft: 10,
   display: "flex",
 },
 info: {
@@ -506,7 +524,7 @@ content: {
 },
 profilebox: {
   marginBottom: 15,
-  marginTop: 15,
+  marginTop: 10,
   alignItems: "flex-start",
   width: "100%",
   flexDirection: "row",
@@ -536,7 +554,7 @@ button: {
 },
 input: {
   height: 40,
-  width: 360,
+  width: 362,
   borderColor: "black",
   borderWidth: 2,
   borderRadius: 10,
@@ -544,8 +562,9 @@ input: {
   color: "white",
   flexDirection: "row",
   marginBottom: 10,
-  marginLeft:15,
+  marginLeft:13,
   marginTop:10,
+  alignItems:"center"
 },
 modal: {
   borderColor: "black",
@@ -582,4 +601,9 @@ replymodal: {
   right: "10%",
   top: "55%",
 },
+etc: {
+  width: 250,
+  height: 100,
+
+  },
 });

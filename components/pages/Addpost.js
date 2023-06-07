@@ -1,11 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  Image,
+  StyleSheet, Text, TextInput, TouchableOpacity, View, Image, TouchableWithoutFeedback, Keyboard,ScrollView,ImageBackground ,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Adimg from '../compent/Adimg';
@@ -14,7 +9,7 @@ import { useState, useCallback, useEffect } from "react";
 import axios from 'axios';
 import BoardList from "./BoardList";
 
-import { doc , setDoc , collection, serverTimestamp } from "firebase/firestore";
+import { doc , setDoc , collection, serverTimestamp , updateDoc , increment} from "firebase/firestore";
 import { auth , db } from "../firebase/firebase";
 
 
@@ -72,6 +67,8 @@ const addpostUnivercityPost = async ()=>{
     report : 0,
 
   });
+  const userDataPoint = doc(collection(db, "users"), user.uid);
+  await updateDoc(userDataPoint, { point: increment(100)});
 console.log("파이어베이스에 UnivercityPost를 추가하였습니다");
 
 }
@@ -79,34 +76,45 @@ console.log("파이어베이스에 UnivercityPost를 추가하였습니다");
 
 
 return (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <View style={styles.container}>
-        <Image
-        style={{
-          width: "100%",
-          height: "100%",
-          position: "absolute",
-          bottom: -55,
-          zIndex: -1,
-        }}
-        source={require("../img/backgroundimg.png")}
-        resizeMode="cover"
-      />
+  
+      
+    <ImageBackground 
+            	style={{ width: "100%", height: "100%" }}  //View를 꽉채우도록
+                source={require("../img/backgroundimg.png")}  //이미지경로
+                resizeMode="cover" // 'cover', 'contain', 'stretch', 'repeat', 'center' 중 선택 
+                >
+      
+      
+      <View style={styles.container2}>
         <TextInput 
         style={styles.title}
         name="title" 
         value={title}
         placeholder='제목'
         onChange={getValue}
+        placeholderTextColor={'gray'}
         // onChange={(text) => {
         //   setTitle(text);
         // }}
         onChangeText={(text) => setTitle(text) }
         />
+        </View>
+
+
+<View style={styles.container2}>
+        <View style={{marginTop:5,marginBottom:10}}>
+        <Text>※혐오발언은 제제대상이 될 수 있는 점 유의하여 주세요※</Text>
+        </View>
+
+        
         <TextInput
         style={styles.content} 
         name="contents" 
         value={content}
         placeholder=' 내용'
+        placeholderTextColor={'gray'}
         onChange={getValue}
         multiline={true}
 
@@ -115,7 +123,9 @@ return (
         // }}
         onChangeText={(text) => setContent(text) }
         />
-        <View style={{display:"flex", justifyContent:"center", width: "100%", flexDirection: "row", alignItems: "flex-start"}}>
+        </View>
+
+        <View style={{ justifyContent:"center", width: "100%", flexDirection: "row", alignItems: "flex-start"}}>
             <TouchableOpacity style={styles.button}
             onPress={() => {
               // onSubmit();
@@ -132,31 +142,36 @@ return (
                 </Text>
             </TouchableOpacity>
         </View>
+        <View style={styles.etc}>
+        </View>
+        </ImageBackground>
+       
         <BottomTabNav />
     </View>
+    </TouchableWithoutFeedback>
   )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "white",
-        alignItems: "center",
-        paddingTop: 50,
-        zIndex: 2,
+  container: {
+    flex: 1,
+    backgroundColor: '#ffff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    
+    
     },
     title: {
-        borderWidth: 2,
-        borderRadius: 10,
-        fontSize: 18,
-        width: 360,
-        marginTop: 2,
-        marginBottom:10,
-        
-        paddingLeft: 5,
-        paddingRight:5,
-        paddingBottom: 10,
-        paddingTop:5,
+      height: 40,
+      width: 360,
+      borderColor: "black",
+      borderWidth: 2,
+      borderRadius: 10,
+      padding: 10,
+      marginVertical: 15,
+      color: "black",
+      marginTop: 35,
+      backgroundColor: "white",
     },
     content: {
         borderWidth: 2,
@@ -164,7 +179,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         fontSize: 15,
         width: 360,
-        height: 500,
+        height: 450,
         backgroundColor:"white",
         
         
@@ -190,5 +205,31 @@ const styles = StyleSheet.create({
     txt: {
         fontSize: 15,
  
-    }
+    },
+
+    container2: {
+      alignItems:"center"
+  },
+
+
+    input: {
+      height: 40,
+      width: 300,
+      borderColor: "black",
+      borderWidth: 2,
+      borderRadius: 10,
+      padding: 10,
+      marginVertical: 15,
+      color: "white",
+      marginTop: 35,
+      backgroundColor: "white",
+      
+  },
+
+
+    etc: {
+      width: 250,
+      height: 100,
+
+      },
 });

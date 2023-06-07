@@ -24,7 +24,7 @@ export default function Mark() {
 
       
   const [isPost, setIsPost] = useState(false);
-  const [postList, setPostList] = useState([]);d
+  const [postList, setPostList] = useState([]);
 
   const addPost = useCallback(() => {
     setIsPost(true),
