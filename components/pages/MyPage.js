@@ -60,9 +60,6 @@ export default function MyPage() {
     getUserData();
   }, []);
 
-  
-
-  
 
 
   return (

@@ -23,9 +23,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Mark from './components/pages/Mark';
 import TimeTable from "./components/pages/TimeTable";
 import Point from "./components/pages/Point";
-import EachPoint from "./components/pages/EachPoint";
 import License from "./components/pages/License";
 import React, { useState } from 'react';
+import Cocacola from "./components/pages/Cocacola";
+import Candy from "./components/pages/Candy";
+import Lunchbox from "./components/pages/Lunchbox";
+import Kimbob from "./components/pages/Kimbob";
 
 
 
@@ -141,15 +144,29 @@ export default function App() {
           />
 
           <Stack.Screen
-            name="EachPoint"
-            component={EachPoint}
-            options={{ title: "포인트" }}
-          />
-
-          <Stack.Screen
             name="License"
             component={License}
             options={{ title: "자격증" }}
+          />
+          <Stack.Screen
+            name="Cocacola"
+            component={Cocacola}
+            options={{ title: "포인트" }}
+          />
+          <Stack.Screen
+            name="Candy"
+            component={Candy}
+            options={{ title: "포인트" }}
+          />
+          <Stack.Screen
+            name="Kimbob"
+            component={Kimbob}
+            options={{ title: "포인트" }}
+          />
+          <Stack.Screen
+            name="Lunchbox"
+            component={Lunchbox}
+            options={{ title: "포인트" }}
           />
          
         </Stack.Navigator>

@@ -4,19 +4,42 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import BottomTabNav from "../compent/BottomTabNav";
 import Adimg from "../compent/Adimg";
+import { getFirestore, doc, updateDoc, increment, getDoc } from 'firebase/firestore';
+import {auth} from "../firebase/firebase";
 
-const image = require('../img/drink.jpg');
+const image = require('../img/lunchbox.jpg');
+const db = getFirestore(); // Firestore 인스턴스를 가져와서 db 변수 초기화
+
 
 export default function EachPoint() {
     const [message, setMessage] = useState('');
     const navigation = useNavigation();
 
-    const onPressButton = () => {
-      setMessage('구매가 완료되었습니다.');
-      setTimeout(() => {
-        setMessage('');
-      }, 5000);
+    const onPressButton = async () => {
+      // Firebase Firestore에서 문서 업데이트
+      const user = auth.currentUser;
+      const washingtonRef = doc(db, "users", user.uid);
+      const decrementAmount = 5000;
+    
+      // 포인트 확인
+      const docSnap = await getDoc(washingtonRef);
+      if (docSnap.exists()) {
+        const currentPoints = docSnap.data().point;
+        if (currentPoints >= decrementAmount) {
+          await updateDoc(washingtonRef, { point: increment(-decrementAmount) });
+    
+          setMessage('구매가 완료되었습니다.');
+          setTimeout(() => {
+            setMessage('');
+          }, 5000);
+        } else {
+          setMessage('포인트가 부족합니다.');
+        }
+      } else {
+        setMessage('사용자 문서를 찾을 수 없습니다.');
+      }
     };
+    
 
   return (
     <View style={styles.container}>
@@ -44,8 +67,8 @@ export default function EachPoint() {
 
       <View style={styles.a}>
       <Image source={image} style={styles.image} />
-      <Text style={styles.buttonText}>코카콜라
-      1500cp</Text>
+      <Text style={styles.buttonText}>도시락
+      5000cp</Text>
       <Button
       style={styles.button}
         title="구매하기"
