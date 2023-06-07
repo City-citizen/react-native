@@ -112,6 +112,7 @@ const reportIncrease = async () => {
         bad: reportSnapshot.data().bad,
         sanctions: 0,
         save: 0,
+        count: 0,
 
       }
       const reportDocRef = await addDoc(collection(db, "report"), reportData);

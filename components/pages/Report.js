@@ -12,7 +12,7 @@ import { useNavigation , useRoute } from "@react-navigation/native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Adimg from "../compent/Adimg";
 import BottomTabNav from '../compent/BottomTabNav';
-import { doc, getDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, increment, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
 export default function Report() {
@@ -22,6 +22,9 @@ export default function Report() {
   const { postRef } = route.params;
   const [writer , setWriter] = useState(null);
   const [post , setPost] = useState(null);
+  const [isSanctioned, setIsSanctioned] = useState(false);
+  const [sanctionedPosts, setSanctionedPosts] = useState([]);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(()=>{
     const fetchreportData = async () =>{
@@ -29,6 +32,7 @@ export default function Report() {
   
   
         const reportDocRef = doc(db, "report", postRef);
+        
         const reportDocSnap = await getDoc(reportDocRef);
         
         
@@ -66,15 +70,95 @@ export default function Report() {
   }, [postRef]);
 
   //제재 함수
-  const Sanctions = async()=>{
-    console.log('sanctions')
+  const Sanctions = async () => {
+    try {
+      if (isSanctioned) {
+        console.log("이미 제재를 넣었습니다.");
+        return;
+      }
+      
+      const reportDocRef = doc(db, "report", postRef);
+      const reportDocSnap = await getDoc(reportDocRef);
+      const postid = reportDocSnap.data().postRef
+      const postDocRef = doc(db, "UnivercityPost", postid );
+  
+      if (reportDocSnap.exists()) {
+        // report 컬렉션의 sanctions 필드를 1 증가
+        await updateDoc(reportDocRef, { sanctions: increment(1), count: increment(1) });
+        console.log("제재가 적용되었습니다.");
+        const reportData = reportDocSnap.data();
+        const {count , sanctions , save} = reportData;  
+        // 제재를 넣은 게시물의 ID를 목록에 추가
+        setSanctionedPosts([...sanctionedPosts, postRef]);
+        setIsSanctioned(true);
+        if(count == 10 && sanctions > save){
+          await Promise.all([
+            deleteDoc(postDocRef),
+            deleteDoc(reportDocRef),
+            
+          ]);
+          console.log("제제가 적용되어 문서가 삭제되었습니다");
 
-  }
+        }else if(count == 10){
+          await deleteDoc(reportDocRef);
+          console.log("구제되어 문서가 삭제되었습니다.");
+          //report값이 0이 되도록설정해야함
+          await updateDoc(postDocRef, {report: 0});
+        }
 
-  const save = async()=>{
-    console.log('save')
+      } else {
+        console.log("게시물이 존재하지 않습니다.");
+      }
+    } catch (error) {
+      console.log("데이터를 가져오는 중 오류 발생:", error);
+    }
+  };
+//구제함수
+  const save = async () => {
+    try {
+      if (isSaved) {
+        console.log("구제를 이미적용했습니다.");
+        return;
+      }
+  
+      const reportDocRef = doc(db, "report", postRef);
+      const reportDocSnap = await getDoc(reportDocRef);
+      const postid = reportDocSnap.data().postRef
+      const postDocRef = doc(db, "UnivercityPost", postid );
+      
+  
+      if (reportDocSnap.exists()) {
+        // report 컬렉션의 save 필드를 1 증가
+        await updateDoc(reportDocRef, { save: increment(1) ,count: increment(1) });
+        console.log("구제가 저장되었습니다.");
+        setIsSaved(true);
+        const reportData = reportDocSnap.data();
+        const {count , sanctions , save} = reportData;
+        
+        if(count == 10 && save > sanctions){
+          await deleteDoc(reportDocRef);
+          console.log("구제가 적용되어 report문서에서만 삭제되었습니다");
+          //report값이 0이 되도록설정해야함
+          await updateDoc(postDocRef, {report: 0});
 
-  }
+        }else if(count == 10){
+          await Promise.all([
+            deleteDoc(postDocRef),
+            deleteDoc(reportDocRef),
+            
+          ]);
+          console.log("제재되어 문서가 삭제되었습니다.");
+          
+        }
+
+
+      } else {
+        console.log("게시물이 존재하지 않습니다.");
+      }
+    } catch (error) {
+      console.log("데이터를 가져오는 중 오류 발생:", error);
+    }
+  };
 
 
   
