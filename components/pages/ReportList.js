@@ -32,6 +32,9 @@ export default function ReportList() {
     ]);
   }, [postList]);
 
+
+  
+
   return (
     <View style={styles.container}>
         <Image

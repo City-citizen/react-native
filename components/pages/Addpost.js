@@ -106,8 +106,10 @@ return (
         style={styles.content} 
         name="contents" 
         value={content}
-        placeholder='내용'
+        placeholder=' 내용'
         onChange={getValue}
+        multiline={true}
+
         // onChange={(text) => {
         //   setContent(text);
         // }}
@@ -147,25 +149,24 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 10,
         fontSize: 18,
-        width: "90%",
+        width: 360,
         marginTop: 2,
-        marginBottom: 2,
-        marginLeft: "auto",
-        marginRight: "auto",
+        marginBottom:10,
+        
         paddingLeft: 5,
         paddingRight:5,
         paddingBottom: 10,
         paddingTop:5,
     },
     content: {
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: "black",
         borderRadius: 10,
         fontSize: 15,
-        width: "90%",
-        height: "60%",
-        marginLeft: "auto",
-        marginRight: "auto",
+        width: 360,
+        height: 500,
+        backgroundColor:"white",
+        
         
     },
     button: {
@@ -183,6 +184,8 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor:"white",
+
     },
     txt: {
         fontSize: 15,

@@ -13,7 +13,7 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Adimg from "../compent/Adimg";
 import { useState, useCallback, useEffect } from "react";
 import axios from 'axios';
-import {updateDoc ,getDoc , doc , increment, setDoc , collection , serverTimestamp, getDocs, query, where, orderBy} from "firebase/firestore";
+import {updateDoc ,getDoc , doc , increment, setDoc , collection , serverTimestamp, getDocs, query, where, orderBy, deleteDoc, addDoc} from "firebase/firestore";
 import {auth, db } from "../firebase/firebase";
 import BottomTabNav from "../compent/BottomTabNav";
 
@@ -98,6 +98,25 @@ const reportIncrease = async () => {
     const postDocRef = doc(db, "UnivercityPost", postRef);
     await updateDoc(postDocRef, { report: increment(1) });
     console.log("Firestore의 'report' 필드를 증가해서 업데이트했습니다.");
+
+    const reportSnapshot = await getDoc(postDocRef);
+    const reportCount = reportSnapshot.data().report;
+
+    if(reportCount == 5){
+      const reportData = {
+        postRef: postRef,
+        timestamp: serverTimestamp(),
+        title: reportSnapshot.data().title,
+        content: reportSnapshot.data().content,
+        userUid: reportSnapshot.data().userUid,
+        bad: reportSnapshot.data().bad,
+
+      }
+      const reportDocRef = await addDoc(collection(db, "report"), reportData);
+      console.log("게시판의 신고수가 5를넘어 신고게시판으로 이동하였습니다",reportDocRef.id);
+
+    }
+
   } catch (error) {
     console.log("Firestore의 'report' 필드 업데이트 중 오류 발생:", error);
   }
@@ -178,6 +197,28 @@ const fetchComments = async () => {
   }
 };
 
+const deletepost = async()=>{
+  const user = auth.currentUser;
+
+  const postDocRef = doc(db, "UnivercityPost", postRef);
+  const postDocSnap = await getDoc(postDocRef);
+  const postData = postDocSnap.data();
+  const writerUid = postData.userUid;
+
+
+  if(user.uid == writerUid){
+    try{
+    await deleteDoc(doc(db, "UnivercityPost", postRef))
+    console.log('게시물이 삭제되었습니다');
+
+  } catch (error){
+    console.error('게시물 삭제 중 오류가 발생하였습니다', error);
+  }}else{
+    console.log('게시물의 사용자가 아닙니다');
+  }
+
+}
+
 useEffect(()=>{
   const fetchPostData = async () =>{
     try {
@@ -226,17 +267,7 @@ useEffect(()=>{
 
 return (
   <View style={styles.container}>
-    <Image
-      style={{
-        width: "100%",
-        height: "100%",
-        position: "absolute",
-        bottom: -55,
-        zIndex: -1,
-      }}
-      source={require("../img/backgroundimg.png")}
-      resizeMode="cover"
-    />
+    
     <Modal
       visible={modalVisible}
       animationType="none"
@@ -248,11 +279,14 @@ return (
         <TouchableOpacity style={styles.modalbutton}>
           <Text style={styles.modalText}>프로필 보기</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.modalbutton}>
+        <TouchableOpacity style={styles.modalbutton} onPress={reportIncrease}>
           <Text style={styles.modalText}>신고하기</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.modalbutton}>
           <Text style={styles.modalText}>공유하기</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.modalbutton} onPress={deletepost}>
+          <Text style={styles.modalText}>삭제하기</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.modalbutton}
@@ -276,7 +310,7 @@ return (
         <TouchableOpacity style={styles.modalbutton}>
           <Text style={styles.modalText}>프로필 보기</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.modalbutton} onPress={reportIncrease}>
+        <TouchableOpacity style={styles.modalbutton}>
           <Text style={styles.modalText}>신고하기</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -476,8 +510,7 @@ profilebox: {
 },
 postbox: {
   position: "relative",
-  paddingBottom: 40,
-  marginBottom: 15,
+  marginBottom: 10,
   width: "100%",
   backgroundColor: "white",
 },
