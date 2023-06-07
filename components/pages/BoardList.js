@@ -49,7 +49,6 @@ export default function BoardList({}) {
       {id: 3, name: "고민", link: "ThinkPost", linkcomment: "ThinkPostcomment"},
       {id: 4, name: "연애", link: "LovePost", linkcomment: "LovePostcomment"},
       {id: 5, name: "노래추천", link: "MusicPost", linkcomment: "MusicPostcomment"},
-      {id: 6, name: "신고", link: "ReportList"}
   ];
   return (
     <View style={styles.container}>

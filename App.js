@@ -31,6 +31,7 @@ import Lunchbox from "./components/pages/Lunchbox";
 import Kimbob from "./components/pages/Kimbob";
 import PostList from "./components/pages/PostList";
 import CommentList from "./components/pages/CommentList";
+import Userprofile from "./components/pages/Userprofile";
 
 
 
@@ -64,6 +65,11 @@ export default function App() {
             name="IdPasswordFind"
             component={IdPasswordFind}
             options={{ title: "아이디 비밀번호 찾기" }}
+          />
+          <Stack.Screen
+            name="Userprofile"
+            component={ Userprofile}
+            options={{ title: "사용자 정보" }}
           />
           <Stack.Screen
             name="MainPage"

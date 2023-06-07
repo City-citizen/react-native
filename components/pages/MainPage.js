@@ -24,6 +24,8 @@ import { collection, query, getDocs, orderBy, where } from "firebase/firestore";
 export default function MainPage() {
   const navigation = useNavigation();
   const [postList, setPostList] = useState([]);
+  const [majorcityPostList, setMajorcityPostList] = useState([]);
+  const [mycityPostList, setmycityPostList] = useState([]);
   
   useEffect(() => {
       const getpostData = async () => {
@@ -43,7 +45,53 @@ export default function MainPage() {
           setPostList(posts);
       }
       getpostData();
-  }, []);
+  }, [])
+  
+  useEffect(() => {
+    const getMajorcityPosts = async () => {
+      const majorcityPostsData = collection(db, "MajorcityPost");
+      const q = query(majorcityPostsData, orderBy("createdAt", "desc"));
+      const querySnapshot = await getDocs(q);
+      const majorcityPosts = querySnapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          title: doc.data().title,
+          content: doc.data().content,
+          good: doc.data().good,
+          bad: doc.data().bad,
+          comment: doc.data().comment,
+        };
+      });
+      setMajorcityPostList(majorcityPosts);
+    };
+
+    getMajorcityPosts();
+  }, [])
+  
+  
+  useEffect(() => {
+    const getMycityPosts = async () => {
+      const mycityPostsData = collection(db, "MycityPost");
+      const q = query(mycityPostsData, orderBy("createdAt", "desc"));
+      const querySnapshot = await getDocs(q);
+      const mycityPosts = querySnapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          title: doc.data().title,
+          content: doc.data().content,
+          good: doc.data().good,
+          bad: doc.data().bad,
+          comment: doc.data().comment,
+        };
+      });
+      setMycityPostList(mycityPosts);
+    };
+
+    getMycityPosts();
+  }, [])
+  ;
+  
+  ;
 
   const weatherlink = () => {
     Linking.openURL("https://weather.naver.com/today/06290107?cpName=KMA");
@@ -127,9 +175,7 @@ export default function MainPage() {
       
         <View style={{ alignItems:"flex-start" ,marginTop:8}}>
        
-        <Text style={styles.title}onPress={() => {
-                                  navigation.navigate("Post", {postRef: postList[0].id});
-                                }}>[ {postList[0].title} ]</Text>
+        <Text > {postList[0].title} </Text>
 
 
                                 
@@ -165,51 +211,91 @@ export default function MainPage() {
 
 <View style={styles.majorcity}>
 <Text style={{fontSize:17,fontWeight:"500"}}>Major city</Text>
-        <View style={{ flexDirection: "row", marginTop: 10 }}>
-          <TouchableOpacity>
-            <Text
-              style={{
-                fontSize: 13,
-                borderColor: "black",
-                //borderWidth: 1,
-                width: 320,
-                alignContent:"center"
-              }}
-            >
-              <Text> 최근작성된 글이 없습니다 </Text>
-            </Text>
-            {/* 게시물로 */}
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <MaterialIcons name="more-vert" size={25} color="black" />
-          </TouchableOpacity>
+                   <View style={styles.container2}>
+  {majorcityPostList.length > 0 ? (
+    <View style={{ width: "90%" }}>
+      
+        <View style={{ alignItems:"flex-start" ,marginTop:8}}>
+       
+        <Text > {majorcityPostList[0].title} </Text>
+
+
+                                
+        
         </View>
-      </View>
-
-
-
-      <View style={styles.mycity}>
-      <Text style={{fontSize:17,fontWeight:"500"}}>My city</Text>
-        <View style={{ flexDirection: "row", marginTop: 10 }}>
-          <TouchableOpacity>
-            <Text
-              style={{
-                fontSize: 13,
-                borderColor: "black",
-                //borderWidth: 1,
-                width: 320,
-                alignContent:"center"
-              }}
-            >
-              <Text> 최근작성된 글이 없습니다 </Text>
-            </Text>
-            {/* 게시물로 */}
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <MaterialIcons name="more-vert" size={25} color="black" />
-          </TouchableOpacity>
+        <View style={{ position: "relative" }}>
+          <MaterialIcons
+            name="thumb-up"
+            size={15}
+            color="#AEC6CF"
+            style={{ position: "absolute", right: "16%", bottom: "1%" }}
+          />
+          <Text style={{ position: "absolute", right: "13%", bottom: "1%", fontSize: 13 }}>
+            {majorcityPostList[0].good}
+          </Text>
+          <MaterialIcons
+            name="thumb-down"
+            size={15}
+            color="#FFB6C1"
+            style={{ position: "absolute", right: "5%", bottom: "1%" }}
+          />
+          <Text style={{ position: "absolute", right: "2%", bottom: "1%", fontSize: 13 }}>
+            {majorcityPostList[0].bad}
+          </Text>
         </View>
-      </View>
+      
+    </View>
+  ) : (
+    <Text>아직 글이 없음</Text>
+  )}
+</View>
+</View>
+      
+
+
+
+<View style={styles.mycity}>
+<Text style={{fontSize:17,fontWeight:"500"}}>My city</Text>
+                   <View style={styles.container2}>
+  {mycityPostList.length > 0 ? (
+    <View style={{ width: "90%" }}>
+      
+        <View style={{ alignItems:"flex-start" ,marginTop:8}}>
+       
+        <Text > {mycityPostList[0].title} </Text>
+
+
+                                
+        
+        </View>
+        <View style={{ position: "relative" }}>
+          <MaterialIcons
+            name="thumb-up"
+            size={15}
+            color="#AEC6CF"
+            style={{ position: "absolute", right: "16%", bottom: "1%" }}
+          />
+          <Text style={{ position: "absolute", right: "13%", bottom: "1%", fontSize: 13 }}>
+            {mycityPostList[0].good}
+          </Text>
+          <MaterialIcons
+            name="thumb-down"
+            size={15}
+            color="#FFB6C1"
+            style={{ position: "absolute", right: "5%", bottom: "1%" }}
+          />
+          <Text style={{ position: "absolute", right: "2%", bottom: "1%", fontSize: 13 }}>
+            {mycityPostList[0].bad}
+          </Text>
+        </View>
+      
+    </View>
+  ) : (
+    <Text>아직 글이 없음</Text>
+  )}
+</View>
+</View>
+      
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={() => weatherlink()}>

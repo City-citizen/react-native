@@ -42,8 +42,17 @@ export default function Post() {
   const [replbad, setreplBad] = useState(0);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
+
+  const [writeruseruid, setWriteruseruid] = useState('');
   
-  
+  const getuserdata = async ()=>{
+        const postDocRef = doc(db, link, postRef);
+        const postDocSnap = await getDoc(postDocRef);
+        const postData = postDocSnap.data();
+        const writerUid = postData.userUid;
+        setWriteruseruid(writerUid);
+
+  }
   
 
   const goodIncrease = async () => {
@@ -51,8 +60,11 @@ export default function Post() {
       setBoolGood(true);
       setGood(prevCount => prevCount + 1);
       try {
+
         const postDocRef = doc(db, link , postRef);
+        
         await updateDoc(postDocRef, { good: post.good + 1 });
+
         console.log("Firestore의 'good' 필드를 증가해서 업데이트했습니다.");
         
       } catch (error) {
@@ -240,15 +252,17 @@ const deletepost = async()=>{
   const fetchPostData = async () =>{
     try {
       
-        const postDocRef = doc(db, link, postRef);
+      const postDocRef = doc(db, link, postRef);
       const postDocSnap = await getDoc(postDocRef);
       
       
 
 
       if(postDocSnap.exists()){
+        
         const postData = postDocSnap.data();
         const writerUid = postData.userUid;
+        setWriteruseruid(writerUid);
 
         const userDocRef = doc(db, "users", writerUid);
         const userDocSnap = await getDoc(userDocRef);
@@ -282,6 +296,7 @@ const deletepost = async()=>{
 useEffect(()=>{
   fetchPostData();
   fetchComments();
+  getuserdata();
 }, []);
 
 return (
@@ -291,11 +306,13 @@ return (
       visible={modalVisible}
       animationType="none"
       //presentationStyle="formSheet"
-      //transparent={true}
+      transparent={true}
     >
       {/* 게시물 모달 */}
       <View style={styles.modal}>
-        <TouchableOpacity style={styles.modalbutton}>
+        <TouchableOpacity style={styles.modalbutton} onPress={() => {
+                      navigation.navigate("Userprofile",{writerUid: writeruseruid});
+                    }}>
           <Text style={styles.modalText}>프로필 보기</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.modalbutton} onPress={reportIncrease}>
@@ -454,7 +471,7 @@ return (
           name="dots-vertical"
           size={25}
           color="black"
-          style={{ marginLeft:250 }}
+          style={{ marginLeft:225 }}
           onPress={() => setreplyModalVisible(true)}
         />
       </View>

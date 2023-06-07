@@ -7,13 +7,15 @@ import {
   View,
   Image,
 } from "react-native";
-import { useEffect, useState, useRoute } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Adimg from "../compent/Adimg";
 import BottomTabNav from '../compent/BottomTabNav';
 import { collection,deleteDoc, doc, getDoc, increment, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase/firebase";
+import { useRoute } from "@react-navigation/native";
+
 
 export default function Report() {
   const navigation = useNavigation();
@@ -211,7 +213,7 @@ export default function Report() {
           <View style={styles.profilebox}>
             <View style={styles.profile}></View>
             <View>
-              <Text style={styles.info}>{writer?.major}(ax123)</Text>
+              <Text style={styles.info}>{writer?.major}({writer?.maskedEmail})</Text>
             </View>
           </View>
 

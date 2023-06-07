@@ -7,7 +7,7 @@ import {
   View,
   Image,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import BottomTabNav from "../compent/BottomTabNav";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Adimg from "../compent/Adimg";
@@ -23,6 +23,8 @@ export default function MyPage() {
   const navigation = useNavigation();
   
   const user = auth.currentUser;
+  const route = useRoute();
+  const { writerUid } = route.params;
   
   
   const [major, setMajor] = useState("");
@@ -33,11 +35,12 @@ export default function MyPage() {
 
   //user.id를 이용해 파이어베이스에 있는 major 값 가져오기
   useEffect(() => {
+    
     const getUserData = async () => {
       try {
 
-        const user = auth.currentUser;
-        const uid = user.uid;
+        
+        const uid = writerUid;
 
         if (!user) {
           console.log("사용자를 찾을 수 없습니다.");
@@ -53,6 +56,7 @@ export default function MyPage() {
             setPostcount(userData.postReportedCount);
             setCommentcount(userData.commentReportedCount);
             setEmpathycount(userData.empathyCount);
+            
           });
         } else {
           console.log("사용자 문서를 찾을 수 없습니다.");
@@ -66,6 +70,9 @@ export default function MyPage() {
   }, []);
 
   
+
+  
+
 
   return (
     <View style={styles.container}>
@@ -125,19 +132,7 @@ export default function MyPage() {
         </View>
       </View>
 
-      <TouchableOpacity
-        style={styles.setUp}
-        onPress={() => {
-          
-          navigation.navigate("EditPage");
-        }}
-      >
-        <Text style={{ fontSize: 18, paddingLeft: 15, marginRight: 240 }}>
-          설정하기
-        </Text>
-        <MaterialIcons name="settings" size={25} color="black" />
-      </TouchableOpacity>
-
+      
       <StatusBar style="auto" />
       <BottomTabNav />
       <Adimg />
@@ -202,8 +197,7 @@ const styles = StyleSheet.create({
     width: 360,
     height: 50,
     alignItems: "center",
-    marginBottom: 30,
-    marginTop:20,
+    marginBottom: 10,
     flexDirection: "row",
   },
 });
