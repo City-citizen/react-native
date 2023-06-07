@@ -26,7 +26,7 @@ export default function MyPage() {
   
   
   const [major, setMajor] = useState("");
-  const [postReportedCount , setPostReportedCount] = useState(null);
+
 
   //user.id를 이용해 파이어베이스에 있는 major 값 가져오기
   useEffect(() => {
@@ -47,7 +47,6 @@ export default function MyPage() {
           querySnapshot.forEach((doc) => {
             const userData = doc.data();
             setMajor(userData.major);
-            setPostReportedCount(userData.postReportedCount);
           });
         } else {
           console.log("사용자 문서를 찾을 수 없습니다.");
@@ -60,6 +59,9 @@ export default function MyPage() {
     getUserData();
   }, []);
 
+  
+
+  
 
 
   return (
@@ -88,10 +90,10 @@ export default function MyPage() {
           }}
         >
           <Image
-      source={{ uri: user.photoURL }}
-      style={{ width: "100%", height: "100%", borderRadius: 15 }}
-      resizeMode="cover"
-    />
+            source={{ uri : user.photoURL}}
+            style={{width : "100%", height:"100%",borderRadius : 15}}
+            resizeMode="cover"
+            />
 
         </View>
         <Text style={{ fontSize: 20 }}>학과 : {major} </Text>
@@ -99,12 +101,12 @@ export default function MyPage() {
 
       <View style={styles.myList}>
         <View style={styles.list}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>{navigation.navigate('PostList');}}>
             <Text style={{ fontSize: 18 }}>게시물 작성 목록</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.list}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>{navigation.navigate('CommentList');}}>
             <Text style={{ fontSize: 18 }}>댓글 작성 목록</Text>
           </TouchableOpacity>
         </View>
@@ -117,7 +119,7 @@ export default function MyPage() {
 
       <View style={styles.myList}>
         <View style={styles.list}>
-          <Text style={{ fontSize: 18 }}>게시물 신고 수 : {postReportedCount}</Text>
+          <Text style={{ fontSize: 18 }}>게시물 삭제율: </Text>
         </View>
         <View style={styles.list}>
           <Text style={{ fontSize: 18 }}>댓글 삭제율: </Text>

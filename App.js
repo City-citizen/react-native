@@ -17,7 +17,7 @@ import Addpost from "./components/pages/Addpost";
 import Post  from "./components/pages/Post";
 import ReportList from "./components/pages/ReportList";
 import Report from "./components/pages/Report";
-import axios from "axios";
+
 import { useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Mark from './components/pages/Mark';
@@ -29,6 +29,9 @@ import Cocacola from "./components/pages/Cocacola";
 import Candy from "./components/pages/Candy";
 import Lunchbox from "./components/pages/Lunchbox";
 import Kimbob from "./components/pages/Kimbob";
+import PostList from "./components/pages/PostList";
+import CommentList from "./components/pages/CommentList";
+
 
 
 
@@ -167,6 +170,17 @@ export default function App() {
             name="Lunchbox"
             component={Lunchbox}
             options={{ title: "포인트" }}
+          />
+          <Stack.Screen
+            name="PostList"
+            component={ PostList}
+            options={{ title: "게시글 목록" }}
+          />
+
+          <Stack.Screen
+            name="CommentList"
+            component={ CommentList}
+            options={{ title: "댓글 목록" }}
           />
          
         </Stack.Navigator>
