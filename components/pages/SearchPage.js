@@ -45,23 +45,23 @@ export default function SearchPage() {
         <View style={{borderBottomWidth:1,borderBottomColor:"black",paddingBottom:7}}>
         <Text style={{ fontSize: 25, margin: 10 }}>인기 검색어</Text>
         <TouchableOpacity>
-          <Text style={{ fontSize: 15, margin: 7 }}>1.</Text>
+          <Text style={{ fontSize: 15, margin: 7 }}>1. 캡스톤</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={{ fontSize: 15, margin: 7 }}>2.</Text>
+          <Text style={{ fontSize: 15, margin: 7 }}>2. 컴퓨터공학과</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={{ fontSize: 15, margin: 7 }}>3.</Text>
+          <Text style={{ fontSize: 15, margin: 7 }}>3. 기말</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={{ fontSize: 15, margin: 7 }}>4.</Text>
+          <Text style={{ fontSize: 15, margin: 7 }}>4. 국장</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={{ fontSize: 15, margin: 7 }}>5.</Text>
+          <Text style={{ fontSize: 15, margin: 7 }}>5. 계대</Text>
         </TouchableOpacity>
       </View> 
         {/* 인기검색어 */}
@@ -69,23 +69,23 @@ export default function SearchPage() {
         <View style={{marginTop:5}}>
         <Text style={{ fontSize: 25, margin: 10 }}>인기 게시물</Text>
         <TouchableOpacity>
-          <Text style={{ fontSize: 15, margin: 7 }}>1.</Text>
+          <Text style={{ fontSize: 15, margin: 7 }}>1. 캡스톤 다들 힘내요.</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={{ fontSize: 15, margin: 7 }}>2.</Text>
+          <Text style={{ fontSize: 15, margin: 7 }}>2. 캡스톤 너무 힘들어</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={{ fontSize: 15, margin: 7 }}>3.</Text>
+          <Text style={{ fontSize: 15, margin: 7 }}>3. 계대역 캡스톤 전시회</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={{ fontSize: 15, margin: 7 }}>4.</Text>
+          <Text style={{ fontSize: 15, margin: 7 }}>4. 컴공 기말 대박나즈아</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={{ fontSize: 15, margin: 7 }}>5.</Text>
+          <Text style={{ fontSize: 15, margin: 7 }}>5. 국장 다들 어서 신청ㄱㄱ</Text>
         </TouchableOpacity>
       </View>
 

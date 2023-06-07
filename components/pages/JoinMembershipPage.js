@@ -13,6 +13,8 @@ import { useNavigation } from "@react-navigation/native";
 import { setDoc, doc ,addDoc, collection, getFirestore} from 'firebase/firestore'
 import { auth , db } from '../firebase/firebase'
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { maskEmail } from 'react-native-masked-text'
+import { Mask } from "react-native-svg";
 
 export default function JoinMembershipPage() {
 
@@ -29,6 +31,21 @@ export default function JoinMembershipPage() {
     classyear : "",
     phonenumber : "",
   })
+
+  const maskEmail = (email) => {
+    const atIndex = email.indexOf("@");
+    if (atIndex > 0) {
+      const userName = email.substring(0, atIndex);
+      const maskedUserName =
+        userName.substring(0, Math.ceil(userName.length / 2)) +
+        "*".repeat(Math.floor(userName.length / 2));
+      const domain = email.substring(atIndex);
+      return maskedUserName;
+    }
+    return email;
+  };
+  
+
   
   const resultMessages = {
     "auth/email-already-in-use" : "이미 가입된 이메일입니다",
@@ -40,6 +57,8 @@ export default function JoinMembershipPage() {
   const signUpSubmit = async () =>{
   
     try{
+      const maskedEmail = maskEmail(form.email);
+      
   
       if(form.password == form.checkPassword){
         const { user } = await createUserWithEmailAndPassword(auth , form.email, form.password);
@@ -48,6 +67,7 @@ export default function JoinMembershipPage() {
         const docRef = await setDoc(doc(collection(db, "users"), user.uid), {
           userUid : user.uid,
           email: form.email,
+          maskedEmail: maskedEmail,
           password: form.password,
           checkPassword: form.checkPassword,
           name: form.name,

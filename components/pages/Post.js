@@ -119,6 +119,7 @@ const reportIncrease = async () => {
         sanctions: 0,
         save: 0,
         count: 0,
+        link: link,
 
       }
       const reportDocRef = await addDoc(collection(db, "report"), reportData);
@@ -162,7 +163,7 @@ const submitComment = async ()=>{
     if(userDoc.exists()){
       const user = auth.currentUser;
       const majorValue = userDoc.data().major;
-      
+      const maskedEmailValue = userDoc.data().maskedEmail;
       const commentRef = doc(collection(db, linkcomment));
       await setDoc(commentRef, {
       comment : comment ,
@@ -173,6 +174,7 @@ const submitComment = async ()=>{
       postRef : postRef,
       commentRef : commentRef.id,
       major : majorValue,
+      maskedEmail : maskedEmailValue,
   
     });
     console.log("파이어베이스에",linkcomment,"를 추가하였습니다");
@@ -190,8 +192,6 @@ setComment('');
 
 const fetchComments = async () => {
   try {
-
-    
       const commentsSnapshot = await getDocs(
         query(collection(db, linkcomment), where("postRef", "==", postRef))
       );
@@ -348,7 +348,7 @@ return (
         <View style={styles.profile}></View>
         <View>
           <Text style={styles.info}>
-            {writer?.major}({writer?.name})
+            {writer?.major}({writer?.maskedEmail})
           </Text>
           <Text style={styles.date}>
             {post?.createdAt?.toDate().toString()}
@@ -448,7 +448,7 @@ return (
         <View style={styles.profile}></View>
         <View>
           <Text style={styles.info}>{comment.major}</Text>
-          <Text style={styles.date}>(ax123)</Text>
+          <Text style={styles.date}>{comment?.maskedEmail}</Text>
         </View>
         <MaterialCommunityIcons
           name="dots-vertical"

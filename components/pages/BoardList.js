@@ -11,14 +11,40 @@ import { useNavigation } from "@react-navigation/native";
 import Adimg from '../compent/Adimg';
 import BottomTabNav from '../compent/BottomTabNav';
 import BottomTab from "../compent/BottomTabNav";
+import { auth, db } from "../firebase/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 export default function BoardList({}) {
     const navigation = useNavigation();
+    const [usermajor, setUserMajor] = useState("");
+    const [majorcomment, setMajorcomment] = useState("");
+
+  useEffect(() => {
+    const fetchUserMajor = async () => {
+      const user = auth.currentUser;
+      const uid = user.uid;
+      const q = query(collection(db, "users"), where("userUid", "==", uid));
+      const querySnapshot = await getDocs(q);
+      const userData = querySnapshot.docs[0].data();
+      const major = userData.major;
+      setUserMajor(major);
+      const majorcommenttext = major + 'comment';
+      setMajorcomment(majorcommenttext);
+      
+    };
+
+    fetchUserMajor();
+  }, []);
+    
+    //const usercomment = (usermajor,'comment');
+
+    
 
 
     const boards = [
       {id: 0, name: "University", link: "UnivercityPost", linkcomment: "Univercitycomment"},
-      {id: 1, name: "Major city", link: "MajorcityPost", linkcomment: "MajorPostcomment"},
+      {id: 1, name: "Major city", link: usermajor, linkcomment: majorcomment},
       {id: 2, name: "맛집", link: "FoodPost", linkcomment: "FoodPostcomment"},
       {id: 3, name: "고민", link: "ThinkPost", linkcomment: "ThinkPostcomment"},
       {id: 4, name: "연애", link: "LovePost", linkcomment: "LovePostcomment"},

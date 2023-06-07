@@ -52,7 +52,7 @@ export default function Board() {
     
   
     return (
-      
+        
         <View style={styles.container}>
           <ScrollView style={styles.scrollView}>
             <Image
@@ -66,6 +66,9 @@ export default function Board() {
                 source={require("../img/backgroundimg.png")}
                 resizeMode="cover"
             />
+            <View style={styles.boardtitle}>
+                <Text style={{fontSize:23}}>{link}</Text>
+            </View>
 
             <View style={styles.container2}>
             <TextInput
@@ -186,6 +189,12 @@ const styles = StyleSheet.create({
     },
     content: {
         marginLeft: 15,
+    },
+    boardtitle:{
+        color:"black",
+        width:300,
+        marginLeft:20,
+        marginTop:15,
     },
     input: {
         height: 40,
