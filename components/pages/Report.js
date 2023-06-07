@@ -7,8 +7,8 @@ import {
   View,
   Image,
 } from "react-native";
-import { useEffect, useState } from "react";
-import { useNavigation , useRoute } from "@react-navigation/native";
+import { useEffect, useState, useRoute } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Adimg from "../compent/Adimg";
 import BottomTabNav from '../compent/BottomTabNav';
@@ -17,9 +17,15 @@ import { auth, db } from "../firebase/firebase";
 
 export default function Report() {
   const navigation = useNavigation();
+  
+  
+  
+
 
   const route = useRoute();
+  
   const { postRef } = route.params;
+
   const [writer , setWriter] = useState(null);
   const [post , setPost] = useState(null);
   const [isSanctioned, setIsSanctioned] = useState(false);
@@ -85,8 +91,9 @@ export default function Report() {
       
       const reportDocRef = doc(db, "report", postRef);
       const reportDocSnap = await getDoc(reportDocRef);
-      const postid = reportDocSnap.data().postRef
-      const postDocRef = doc(db, "UnivercityPost", postid );
+      const postid = reportDocSnap.data().postRef;
+      const link = reportDocSnap.data().link;
+      const postDocRef = doc(db, link, postid );
   
       if (reportDocSnap.exists()) {
         // report 컬렉션의 sanctions 필드를 1 증가
@@ -140,7 +147,8 @@ export default function Report() {
       const reportDocRef = doc(db, "report", postRef);
       const reportDocSnap = await getDoc(reportDocRef);
       const postid = reportDocSnap.data().postRef
-      const postDocRef = doc(db, "UnivercityPost", postid );
+      const link = reportDocSnap.data().link
+      const postDocRef = doc(db, link, postid );
       
   
       if (reportDocSnap.exists()) {

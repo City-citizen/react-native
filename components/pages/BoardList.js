@@ -17,12 +17,12 @@ export default function BoardList({}) {
 
 
     const boards = [
-      {id: 0, name: "University", link: "Board"},
-      {id: 1, name: "Major city", link: "univ" },
-      {id: 2, name: "맛집", link: "univ"},
-      {id: 3, name: "고민", link: "univ"},
-      {id: 4, name: "연애", link: "univ"},
-      {id: 5, name: "노래추천", link: "univ"},
+      {id: 0, name: "University", link: "UnivercityPost", linkcomment: "Univercitycomment"},
+      {id: 1, name: "Major city", link: "MajorcityPost", linkcomment: "MajorPostcomment"},
+      {id: 2, name: "맛집", link: "FoodPost", linkcomment: "FoodPostcomment"},
+      {id: 3, name: "고민", link: "ThinkPost", linkcomment: "ThinkPostcomment"},
+      {id: 4, name: "연애", link: "LovePost", linkcomment: "LovePostcomment"},
+      {id: 5, name: "노래추천", link: "MusicPost", linkcomment: "MusicPostcomment"},
       {id: 6, name: "신고", link: "ReportList"}
   ];
   return (
@@ -47,9 +47,12 @@ export default function BoardList({}) {
         {boards.map((board) => (
         <TouchableOpacity
         style={styles.box}
-        key={board.id} 
+        key={board.id}
+        
         onPress={() => {
-          navigation.navigate(board.link);}}
+          
+          navigation.navigate( 'Board', {link : board.link, linkcomment: board.linkcomment} );
+        }}
           >
           <Text style={{ fontSize:17 }}>{board.name}</Text>
         </TouchableOpacity>

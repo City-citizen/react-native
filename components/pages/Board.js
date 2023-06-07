@@ -8,7 +8,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Adimg from '../compent/Adimg';
 import BottomTabNav from '../compent/BottomTabNav';
 import { useState, useEffect } from "react";
@@ -20,28 +20,36 @@ import { collection, query, getDocs, orderBy } from "firebase/firestore";
 
 export default function Board() {
     const navigation = useNavigation();
+    const route = useRoute();
+    const { link, linkcomment } = route.params;
    
     const [postList, setPostList] = useState([]);
   
-    useEffect(() => {
-        const getpostData = async () => {
-            const postData = collection(db, "UnivercityPost");
-            const q = query(postData, orderBy("createdAt", "desc"));
-            const querySnapshot = await getDocs(q);
-            const posts = querySnapshot.docs.map((doc) => {
-                return {
-                    id: doc.id,
-                    title: doc.data().title,
-                    content: doc.data().content,
-                    good: doc.data().good,
-                    bad: doc.data().bad,
-                    comment: doc.data().comment,
-                };
-            });
-            setPostList(posts);
-        }
-        getpostData();
-    }, []);
+    
+        useEffect(() => {
+            const getpostData = async () => {
+                const postData = collection(db, link);
+                const q = query(postData, orderBy("createdAt", "desc"));
+                const querySnapshot = await getDocs(q);
+                const posts = querySnapshot.docs.map((doc) => {
+                    return {
+                        id: doc.id,
+                        title: doc.data().title,
+                        content: doc.data().content,
+                        good: doc.data().good,
+                        bad: doc.data().bad,
+                        comment: doc.data().comment,
+                    };
+                });
+                setPostList(posts);
+            }
+            getpostData();
+        }, []);
+
+
+    
+        
+    
   
     return (
       
@@ -72,12 +80,12 @@ export default function Board() {
                 size={20}
                 name="pencil"
                 onPress={() => {
-                    navigation.navigate("Addpost");
+                    navigation.navigate("Addpost",{link: link, linkcomment: linkcomment});
                 }}
             />
            
 
-            <TouchableOpacity onPress={() => navigation.navigate("Addpost")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Addpost",{link: link, linkcomment: linkcomment})}>
                 <Text>추가</Text>
             </TouchableOpacity>
             </View> 
@@ -94,7 +102,7 @@ export default function Board() {
                             <Text
                                 style={styles.title}
                                 onPress={() => {
-                                  navigation.navigate("Post", {postRef: p.id});
+                                  navigation.navigate("Post", {postRef: p.id , link: link, linkcomment: linkcomment});
                                 }}
                             >
                                 {p.title}

@@ -22,8 +22,10 @@ import BottomTabNav from "../compent/BottomTabNav";
 export default function Post() {
   const navigation = useNavigation();
   const route = useRoute();
-
   const { postRef } = route.params;
+  const { link, linkcomment } = route.params;
+
+
   const [post, setPost] = useState(null);
   const [writer, setWriter ] = useState(null);
   
@@ -40,13 +42,16 @@ export default function Post() {
   const [replbad, setreplBad] = useState(0);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
+  
+  
+  
 
   const goodIncrease = async () => {
     if (boolGood == false) {
       setBoolGood(true);
       setGood(prevCount => prevCount + 1);
       try {
-        const postDocRef = doc(db, "UnivercityPost", postRef);
+        const postDocRef = doc(db, link , postRef);
         await updateDoc(postDocRef, { good: post.good + 1 });
         console.log("Firestore의 'good' 필드를 증가해서 업데이트했습니다.");
         
@@ -58,7 +63,7 @@ export default function Post() {
       
       setGood(prevCount => prevCount - 1);
       try {
-        const postDocRef = doc(db, "UnivercityPost", postRef);
+        const postDocRef = doc(db, link , postRef);
         await updateDoc(postDocRef, { good: post.good - 1 });
         console.log("Firestore의 'good' 필드를 감소해서 업데이트했습니다.");
         
@@ -75,7 +80,7 @@ const badIncrease = async () => {
     setBoolBad(!boolBad);
     setBad(prevCount => prevCount + 1);
     try {
-      const postDocRef = doc(db, "UnivercityPost", postRef);
+      const postDocRef = doc(db, link , postRef);
       await updateDoc(postDocRef, { bad: post.bad + 1 });
       console.log("Firestore의 'bad' 필드를 업데이트했습니다.");
     } catch (error) {
@@ -85,7 +90,7 @@ const badIncrease = async () => {
     setBoolBad(!boolBad);
     setBad(prevCount => prevCount - 1);
     try {
-      const postDocRef = doc(db, "UnivercityPost", postRef);
+      const postDocRef = doc(db, link , postRef);
       await updateDoc(postDocRef, { good: post.bad - 1 });
       console.log("Firestore의 'bad' 필드를 업데이트했습니다.");
     } catch (error) {
@@ -96,7 +101,7 @@ const badIncrease = async () => {
 
 const reportIncrease = async () => {
   try {
-    const postDocRef = doc(db, "UnivercityPost", postRef);
+    const postDocRef = doc(db, link , postRef);
     await updateDoc(postDocRef, { report: increment(1) });
     console.log("Firestore의 'report' 필드를 증가해서 업데이트했습니다.");
 
@@ -154,52 +159,53 @@ const submitComment = async ()=>{
   const userRef = doc(collection(db,"users"), user.uid);
   const userDoc = await getDoc(userRef);
 
-  if(userDoc.exists()){
-    const user = auth.currentUser;
-    const majorValue = userDoc.data().major;
-    
-    const commentRef = doc(collection(db, "Univercitycomment"));
-    await setDoc(commentRef, {
-    comment : comment ,
-    userUid : user.uid,
-    good : 0,
-    bad : 0,
-    createdAt : serverTimestamp(),
-    postRef : postRef,
-    commentRef : commentRef.id,
-    major : majorValue,
-
-  });
-  console.log("파이어베이스에 Univercitycomment를 추가하였습니다");
+    if(userDoc.exists()){
+      const user = auth.currentUser;
+      const majorValue = userDoc.data().major;
+      
+      const commentRef = doc(collection(db, linkcomment));
+      await setDoc(commentRef, {
+      comment : comment ,
+      userUid : user.uid,
+      good : 0,
+      bad : 0,
+      createdAt : serverTimestamp(),
+      postRef : postRef,
+      commentRef : commentRef.id,
+      major : majorValue,
   
-
-  const userDataPoint = doc(collection(db, "users"), user.uid);
-  await updateDoc(userDataPoint, { point: increment(10)});
-
-  }else{
-    console.log("사용자 문서를 찾을 수 없습니다");
-  }
-
+    });
+    console.log("파이어베이스에",linkcomment,"를 추가하였습니다");
+    
+  
+    const userDataPoint = doc(collection(db, "users"), user.uid);
+    await updateDoc(userDataPoint, { point: increment(10)});
+  
+    }else{
+      console.log("사용자 문서를 찾을 수 없습니다");
+    }
   
 setComment('');
 }
 
 const fetchComments = async () => {
   try {
-    // Query the "comments" collection for comments related to the current post    
-    const commentsSnapshot = await getDocs(
-      query(collection(db, "Univercitycomment"), where("postRef", "==", postRef))
-    );
+
     
-
-    // Map the comments snapshot to an array of comment objects
-    const commentsData = commentsSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    // Set the comments state
-    setComments(commentsData);
+      const commentsSnapshot = await getDocs(
+        query(collection(db, linkcomment), where("postRef", "==", postRef))
+      );
+      
+  
+      // Map the comments snapshot to an array of comment objects
+      const commentsData = commentsSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+  
+      // Set the comments state
+      setComments(commentsData);
+    
   } catch (error) {
     console.log("Error fetching comments:", error);
   }
@@ -208,7 +214,7 @@ const fetchComments = async () => {
 const deletepost = async()=>{
   const user = auth.currentUser;
 
-  const postDocRef = doc(db, "UnivercityPost", postRef);
+  const postDocRef = doc(db, link, postRef);
   const postDocSnap = await getDoc(postDocRef);
   const postData = postDocSnap.data();
   const writerUid = postData.userUid;
@@ -216,7 +222,7 @@ const deletepost = async()=>{
 
   if(user.uid == writerUid){
     try{
-    await deleteDoc(doc(db, "UnivercityPost", postRef))
+    await deleteDoc(doc(db, link, postRef))
 
     const userDataPoint = doc(collection(db, "users"), user.uid);
     await updateDoc(userDataPoint, { point: increment(-100)});
@@ -230,12 +236,11 @@ const deletepost = async()=>{
 
 }
 
-useEffect(()=>{
+
   const fetchPostData = async () =>{
     try {
-
-
-      const postDocRef = doc(db, "UnivercityPost", postRef);
+      
+        const postDocRef = doc(db, link, postRef);
       const postDocSnap = await getDoc(postDocRef);
       
       
@@ -263,16 +268,19 @@ useEffect(()=>{
       }else {
         console.log("게시물이 존재하지않습니다");
       }
-      
+
     }catch (error){
       console.log("데이터가져오는도중오류발생", error)
     }
   };
-  fetchPostData();
 
-}, [postRef]);
+
+      
+      
+    
 
 useEffect(()=>{
+  fetchPostData();
   fetchComments();
 }, []);
 

@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet, Text, TextInput, TouchableOpacity, View, Image, TouchableWithoutFeedback, Keyboard,ScrollView,ImageBackground ,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Adimg from '../compent/Adimg';
 import BottomTabNav from '../compent/BottomTabNav';
 import { useState, useCallback, useEffect } from "react";
@@ -14,142 +14,117 @@ import { auth , db } from "../firebase/firebase";
 
 
 export default function Addpost() {
-    const navigation = useNavigation();
-    
-      // const { title, contents } = inputs;
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { link, linkcomment } = route.params;
 
-const [title, setTitle] = useState("")
-const [content, setContent] = useState("")
+  const user = auth.currentUser;
 
-const [inputs, setInputs] = useState({
-  title: '',
-  content:'',
-});
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
+  const getValue = (name, value) => {
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
 
-/*
-useEffect(()=>{
-  axios.get('http://localhost:19006/board/1').then((response)=>{
-    console.log(response.data);
-  })
-})
-
-const submit = ()=>{
-  axios.post('http://localhost:19006', {
-    title: inputs.title,
-    content: inputs.content
-  }).then(()=>{
-    alert('등록 완료!');
-  })
-};
-*/
-const getValue = (e) => {
-  const { name, value } = e.target;
-  setInputs({
-    ...inputs,
-    [name] : value
-  })
-};
-
-
-const addpostUnivercityPost = async ()=>{
-  const user = auth.currentUser
-  const postRef = doc(collection(db, "UnivercityPost"));
-  await setDoc(postRef, {
-    title : title ,
-    content : content ,
-    userUid : user.uid,
-    good : 0,
-    bad : 0,
-    comment : 0,
-    createdAt : serverTimestamp(),
-    postRef : postRef.id,
-    report : 0,
-
-  });
-  const userDataPoint = doc(collection(db, "users"), user.uid);
-  await updateDoc(userDataPoint, { point: increment(100)});
-console.log("파이어베이스에 UnivercityPost를 추가하였습니다");
-
-}
-
-
-
-return (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    <View style={styles.container}>
-  
+  const addpostUnivercityPost = async () => {
+    try {
       
-    <ImageBackground 
-            	style={{ width: "100%", height: "100%" }}  //View를 꽉채우도록
-                source={require("../img/backgroundimg.png")}  //이미지경로
-                resizeMode="cover" // 'cover', 'contain', 'stretch', 'repeat', 'center' 중 선택 
-                >
-      
-      
-      <View style={styles.container2}>
-        <TextInput 
-        style={styles.title}
-        name="title" 
-        value={title}
-        placeholder='제목'
-        onChange={getValue}
-        placeholderTextColor={'gray'}
-        // onChange={(text) => {
-        //   setTitle(text);
-        // }}
-        onChangeText={(text) => setTitle(text) }
-        />
-        </View>
-
-
-<View style={styles.container2}>
-        <View style={{marginTop:5,marginBottom:10}}>
-        <Text>※혐오발언은 제제대상이 될 수 있는 점 유의하여 주세요※</Text>
-        </View>
-
         
-        <TextInput
-        style={styles.content} 
-        name="contents" 
-        value={content}
-        placeholder=' 내용'
-        placeholderTextColor={'gray'}
-        onChange={getValue}
-        multiline={true}
+        const postRef = doc(collection(db, link));
+        await setDoc(postRef, {
+          title: title,
+          content: content,
+          userUid: user.uid,
+          good: 0,
+          bad: 0,
+          comment: 0,
+          createdAt: serverTimestamp(),
+          postRef: postRef.id,
+          report: 0,
+        });
+        const userDataPoint = doc(collection(db, "users"), user.uid);
+        await updateDoc(userDataPoint, { point: increment(100) });
+        console.log("파이어베이스에 ",link,"를 추가하였습니다");
 
-        // onChange={(text) => {
-        //   setContent(text);
-        // }}
-        onChangeText={(text) => setContent(text) }
-        />
-        </View>
+      
+        
+        
+    } catch (error) {
+      console.log("에러 발생:", error);
+    }
+  };
 
-        <View style={{ justifyContent:"center", width: "100%", flexDirection: "row", alignItems: "flex-start"}}>
-            <TouchableOpacity style={styles.button}
-            onPress={() => {
-              // onSubmit();
-              //console.log({title} , {content});
-              navigation.navigate("Board", {title:{title}, content:{content} });
-              addpostUnivercityPost();
-              //submit();
-            }} >
-                <Text style={styles.txt}>작성</Text>
+  return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <ImageBackground
+          style={{ width: "100%", height: "100%" }}
+          source={require("../img/backgroundimg.png")}
+          resizeMode="cover"
+        >
+          <View style={styles.container2}>
+            <TextInput
+              style={styles.title}
+              name="title"
+              value={title}
+              placeholder="제목"
+              onChangeText={(text) => setTitle(text)}
+              placeholderTextColor={"gray"}
+            />
+          </View>
+
+          <View style={styles.container2}>
+            <View style={{ marginTop: 5, marginBottom: 10 }}>
+              <Text>
+                ※혐오발언은 제제대상이 될 수 있는 점 유의하여 주세요※
+              </Text>
+            </View>
+
+            <TextInput
+              style={styles.content}
+              name="content"
+              value={content}
+              placeholder="내용"
+              onChangeText={(text) => setContent(text)}
+              placeholderTextColor={"gray"}
+              multiline={true}
+            />
+          </View>
+
+          <View
+            style={{
+              justifyContent: "center",
+              width: "100%",
+              flexDirection: "row",
+              alignItems: "flex-start",
+            }}
+          >
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                addpostUnivercityPost();
+                navigation.navigate("Board", {link : link, linkcomment: linkcomment});
+                
+              }}
+            >
+              <Text style={styles.text}>작성</Text>
             </TouchableOpacity>
-            <TouchableOpacity  style={styles.button}>
-                <Text style={styles.txt}>
-                    취소
-                </Text>
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.goBack()}
+            >
+              <Text style={styles.text}>취소</Text>
             </TouchableOpacity>
-        </View>
-        <View style={styles.etc}>
-        </View>
+          </View>
         </ImageBackground>
-       
-        <BottomTabNav />
-    </View>
+      </View>
     </TouchableWithoutFeedback>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
