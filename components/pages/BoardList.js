@@ -19,6 +19,8 @@ export default function BoardList({}) {
     const navigation = useNavigation();
     const [usermajor, setUserMajor] = useState("");
     const [majorcomment, setMajorcomment] = useState("");
+    const [userschool, setUserschool] = useState("");
+    const [schoolcomment, setSchoolcomment] = useState("");
 
   useEffect(() => {
     const fetchUserMajor = async () => {
@@ -29,8 +31,12 @@ export default function BoardList({}) {
       const userData = querySnapshot.docs[0].data();
       const major = userData.major;
       setUserMajor(major);
+      const school = userData.school;
+      setUserschool(school);
       const majorcommenttext = major + 'comment';
       setMajorcomment(majorcommenttext);
+      const schoolcomment = school + 'comment';
+      setSchoolcomment(schoolcomment);
       
     };
 
@@ -44,11 +50,12 @@ export default function BoardList({}) {
 
     const boards = [
       {id: 0, name: "University", link: "UnivercityPost", linkcomment: "Univercitycomment"},
-      {id: 1, name: "Major city", link: usermajor, linkcomment: majorcomment},
-      {id: 2, name: "맛집", link: "FoodPost", linkcomment: "FoodPostcomment"},
-      {id: 3, name: "고민", link: "ThinkPost", linkcomment: "ThinkPostcomment"},
-      {id: 4, name: "연애", link: "LovePost", linkcomment: "LovePostcomment"},
-      {id: 5, name: "노래추천", link: "MusicPost", linkcomment: "MusicPostcomment"},
+      {id: 1, name: usermajor, link: usermajor, linkcomment: majorcomment},
+      {id: 2, name: userschool, link: userschool, linkcomment: schoolcomment},
+      {id: 3, name: "맛집", link: "FoodPost", linkcomment: "FoodPostcomment"},
+      {id: 4, name: "고민", link: "ThinkPost", linkcomment: "ThinkPostcomment"},
+      {id: 5, name: "연애", link: "LovePost", linkcomment: "LovePostcomment"},
+      {id: 6, name: "노래추천", link: "MusicPost", linkcomment: "MusicPostcomment"},
   ];
   return (
     <View style={styles.container}>

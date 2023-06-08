@@ -26,6 +26,8 @@ export default function MainPage() {
   const [postList, setPostList] = useState([]);
   const [majorcityPostList, setMajorcityPostList] = useState([]);
   const [mycityPostList, setmycityPostList] = useState([]);
+  const [usermajor , setUsermajor] = useState('');
+  const [userschool, setUserschool] = useState('');
   
   useEffect(() => {
       const getpostData = async () => {
@@ -49,7 +51,11 @@ export default function MainPage() {
   
   useEffect(() => {
     const getMajorcityPosts = async () => {
-      const majorcityPostsData = collection(db, "MajorcityPost");
+      const user = auth.currentUser
+      const userdataRef = await getDocs(collection(db, "users"), user.uid);
+      const userdata = userdataRef.docs[0].data().major;
+      setUsermajor(userdata);
+      const majorcityPostsData = collection(db, userdata);
       const q = query(majorcityPostsData, orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(q);
       const majorcityPosts = querySnapshot.docs.map((doc) => {
@@ -71,7 +77,12 @@ export default function MainPage() {
   
   useEffect(() => {
     const getMycityPosts = async () => {
-      const mycityPostsData = collection(db, "MycityPost");
+      const user = auth.currentUser
+      const userdataRef = await getDocs(collection(db, "users"), user.uid);
+      const userdata = userdataRef.docs[0].data().school;
+      setUserschool(userdata);
+
+      const mycityPostsData = collection(db, userdata);
       const q = query(mycityPostsData, orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(q);
       const mycityPosts = querySnapshot.docs.map((doc) => {
@@ -84,7 +95,7 @@ export default function MainPage() {
           comment: doc.data().comment,
         };
       });
-      setMycityPostList(mycityPosts);
+      setmycityPostList(mycityPosts);
     };
 
     getMycityPosts();

@@ -318,9 +318,7 @@ return (
         <TouchableOpacity style={styles.modalbutton} onPress={reportIncrease}>
           <Text style={styles.modalText}>신고하기</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.modalbutton}>
-          <Text style={styles.modalText}>공유하기</Text>
-        </TouchableOpacity>
+      
         <TouchableOpacity style={styles.modalbutton} onPress={deletepost}>
           <Text style={styles.modalText}>삭제하기</Text>
         </TouchableOpacity>
@@ -421,10 +419,7 @@ return (
           <MaterialIcons name="thumb-down" size={20} color="black" />
           <Text>비공감</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <MaterialIcons name="bookmark-outline" size={20} color="black" />
-          <Text>보관</Text>
-        </TouchableOpacity>
+        
       </View>
 
       <Adimg />

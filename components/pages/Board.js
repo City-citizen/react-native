@@ -55,17 +55,7 @@ export default function Board() {
         
         <View style={styles.container}>
           <ScrollView style={styles.scrollView}>
-            <Image
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    position: "absolute",
-                    bottom: -55,
-                    zIndex: -1,
-                }}
-                source={require("../img/backgroundimg.png")}
-                resizeMode="cover"
-            />
+            
             <View style={styles.boardtitle}>
                 <Text style={{fontSize:23}}>{link}</Text>
             </View>
